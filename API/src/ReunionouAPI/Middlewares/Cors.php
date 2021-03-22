@@ -5,7 +5,7 @@ use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class Cors{
+class Cors {
 
     private $c;
 

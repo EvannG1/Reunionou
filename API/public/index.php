@@ -1,12 +1,11 @@
 <?php
 
-require_once '../src/vendor/autoload.php' ;
+require_once '../src/vendor/autoload.php';
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-
-$settings       = require_once '../config/settings.php' ;
+$settings       = require_once '../config/settings.php';
 $dependencies   = require_once '../config/dependencies.php';
 $errors         = require_once '../config/errors.php';
  
