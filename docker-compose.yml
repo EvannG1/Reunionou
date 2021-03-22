@@ -25,6 +25,7 @@ services:
     volumes:
       - ./API/public:/var/www/web
       - ./API/src:/var/www/src
+      - ./API/config:/var/www/config
     working_dir: /var/www/src
     networks:
       - d.net
