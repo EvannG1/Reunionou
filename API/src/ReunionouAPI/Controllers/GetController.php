@@ -31,15 +31,26 @@ class GetController {
     }
 
     public static function getComments() {
-        $comments = Comment::select()->with('user')->get();
+        $comments = Comment::where('user_id', $_SESSION['id'])->with('user')->get();
         $comments->makeHidden(['user_id']);
-        return json_encode($comments);
+
+        $shared = Shared::where('user_id', $_SESSION['id'])->with('comments')->with('user')->get();
+        $shared->makeHidden(['id', 'event_id', 'user_id']);
+
+        return json_encode(['owned' => $comments, 'shared' => $shared]);
     }
 
     public static function getComment($id) {
-        $comment = Comment::where('id', $id)->with('user')->get();
-        $comment->makeHidden(['user_id']);
-        return json_encode($comment);
+        $owned = Event::where(['id' => $id, 'user_id' => $_SESSION['id']])->count();
+        $shared = Shared::where(['event_id' => $id, 'user_id' => $_SESSION['id']])->count();
+
+        if($owned || $shared) {
+            $comment = Comment::where('event_id', $id)->with('user')->get();
+            $comment->makeHidden(['user_id']);
+            return json_encode($comment);
+        } else {
+            return json_encode(['error' => 'permissions denied']);
+        }        
     }
 
     public static function getShared() {

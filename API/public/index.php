@@ -48,7 +48,7 @@ $app->group('', function() {
         return $response;
     });
     
-    $this->get('/comment/{id}', function(Request $req, Response $resp, $args) {
+    $this->get('/comments/{id}', function(Request $req, Response $resp, $args) {
         $id = $args['id'];
         $response = $resp->withHeader('Content-Type', 'application/json');
         $response->getBody()->write(GetAPI::getComment($id));

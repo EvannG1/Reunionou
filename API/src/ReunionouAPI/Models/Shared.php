@@ -18,4 +18,8 @@ class Shared extends Model
         return $this->belongsTo('ReunionouAPI\Models\User', 'user_id');
     }
 
+    public function comments(){
+        return $this->hasMany('ReunionouAPI\Models\Comment', 'event_id');
+    }
+
 }
