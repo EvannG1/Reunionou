@@ -13,13 +13,21 @@ class GetController {
 
         $shared = Shared::where('user_id', $_SESSION['id'])->with('event')->get();
         $shared->makeHidden(['id', 'event_id', 'user_id']);
+
         return json_encode(['owned' => $events, 'shared' => $shared]);
     }
 
     public static function getEvent($id) {
-        $event = Event::where('id', $id)->with('location')->with('author')->get();
-        $event->makeHidden(['location_id', 'user_id']);
-        return json_encode($event);
+        $owned = Event::where(['id' => $id, 'user_id' => $_SESSION['id']])->count();
+        $shared = Shared::where(['event_id' => $id, 'user_id' => $_SESSION['id']])->count();
+
+        if($owned || $shared) {
+            $event = Event::where('id', $id)->with('location')->with('author')->get();
+            $event->makeHidden(['location_id', 'user_id']);
+            return json_encode($event);
+        } else {
+            return json_encode(['error' => 'permissions denied']);
+        }
     }
 
     public static function getComments() {
