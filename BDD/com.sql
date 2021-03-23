@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : mar. 23 mars 2021 à 15:33
+-- Généré le : mar. 23 mars 2021 à 15:56
 -- Version du serveur :  10.5.9-MariaDB-1:10.5.9+maria~focal
 -- Version de PHP : 7.4.16
 
@@ -30,16 +30,18 @@ SET time_zone = "+00:00";
 CREATE TABLE `comments` (
   `id` int(11) NOT NULL,
   `content` text NOT NULL,
-  `user_id` int(11) NOT NULL
+  `user_id` int(11) NOT NULL,
+  `event_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `comments`
 --
 
-INSERT INTO `comments` (`id`, `content`, `user_id`) VALUES
-(1, 'Cela va être super bien ! :)', 1),
-(2, 'Cela va être super naze ! :(', 1);
+INSERT INTO `comments` (`id`, `content`, `user_id`, `event_id`) VALUES
+(1, 'Cela va être super bien ! :)', 1, 1),
+(2, 'Cela va être super naze ! :(', 2, 2),
+(3, 'On verra bien !', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -175,7 +177,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `events`
