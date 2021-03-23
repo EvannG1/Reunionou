@@ -25,7 +25,7 @@ $app->options('/{routes:.+}', function(Request $rq, Response $rs, array $args) {
 });
 
 $app->get('/hello', function(Request $req, Response $resp, $args) {
-    $resp->getBody()->write('salut bastien t es un peu con sur les bord non ? spoiler va');
+    $resp->getBody()->write('Hello world !');
     return $resp;
 });
 
