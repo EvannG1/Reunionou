@@ -5,17 +5,20 @@ use ReunionouAPI\Models\Event;
 use ReunionouAPI\Models\Comment;
 use ReunionouAPI\Models\Shared;
 
-class Controller {
+class GetController {
 
     public static function getEvents() {
-        $events = Event::select()->with('location')->get();
-        $events->makeHidden(['location_id']);
-        return json_encode($events);
+        $events = Event::where('user_id', $_SESSION['id'])->with('location')->with('author')->get();
+        $events->makeHidden(['location_id', 'user_id']);
+
+        $shared = Shared::where('user_id', $_SESSION['id'])->with('event')->get();
+        $shared->makeHidden(['id', 'event_id', 'user_id']);
+        return json_encode(['owned' => $events, 'shared' => $shared]);
     }
 
     public static function getEvent($id) {
-        $event = Event::where('id', $id)->with('location')->get();
-        $event->makeHidden(['location_id']);
+        $event = Event::where('id', $id)->with('location')->with('author')->get();
+        $event->makeHidden(['location_id', 'user_id']);
         return json_encode($event);
     }
 

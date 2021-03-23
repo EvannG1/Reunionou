@@ -14,4 +14,8 @@ class Event extends Model
         return $this->belongsTo('ReunionouAPI\Models\Location', 'location_id');
     }
 
+    public function author(){
+        return $this->belongsTo('ReunionouAPI\Models\User', 'user_id');
+    }
+
 }

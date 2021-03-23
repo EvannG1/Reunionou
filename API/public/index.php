@@ -2,9 +2,12 @@
 
 require_once '../src/vendor/autoload.php';
 
-use \Psr\Http\Message\ServerRequestInterface as Request;
+session_start();
+
 use \Psr\Http\Message\ResponseInterface as Response;
-use ReunionouAPI\Controllers\Controller as API;
+use \Psr\Http\Message\ServerRequestInterface as Request;
+use ReunionouAPI\Controllers\GetController as GetAPI;
+use ReunionouAPI\Middlewares\TokenMiddleware;
 
 $settings       = require_once '../config/settings.php';
 $dependencies   = require_once '../config/dependencies.php';
@@ -25,43 +28,45 @@ $app->options('/{routes:.+}', function(Request $rq, Response $rs, array $args) {
     return $rs;
 });
 
-$app->get('/events', function(Request $req, Response $resp) {
-    $response = $resp->withHeader('Content-Type', 'application/json');
-    $response->getBody()->write(API::getEvents());
-    return $response;
-});
-
-$app->get('/event/{id}', function(Request $req, Response $resp, $args) {
-    $id = $args['id'];
-    $response = $resp->withHeader('Content-Type', 'application/json');
-    $response->getBody()->write(API::getEvent($id));
-    return $response;
-});
-
-$app->get('/comments', function(Request $req, Response $resp) {
-    $response = $resp->withHeader('Content-Type', 'application/json');
-    $response->getBody()->write(API::getComments());
-    return $response;
-});
-
-$app->get('/comment/{id}', function(Request $req, Response $resp, $args) {
-    $id = $args['id'];
-    $response = $resp->withHeader('Content-Type', 'application/json');
-    $response->getBody()->write(API::getComment($id));
-    return $response;
-});
-
-$app->get('/shared', function(Request $req, Response $resp) {
-    $response = $resp->withHeader('Content-Type', 'application/json');
-    $response->getBody()->write(API::getShared());
-    return $response;
-});
-
-$app->get('/shared/{id}', function(Request $req, Response $resp, $args) {
-    $id = $args['id'];
-    $response = $resp->withHeader('Content-Type', 'application/json');
-    $response->getBody()->write(API::getSharedEvent($id));
-    return $response;
-});
+$app->group('', function() {
+    $this->get('/events', function(Request $req, Response $resp) {
+        $response = $resp->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(GetAPI::getEvents());
+        return $response;
+    });
+    
+    $this->get('/event/{id}', function(Request $req, Response $resp, $args) {
+        $id = $args['id'];
+        $response = $resp->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(GetAPI::getEvent($id));
+        return $response;
+    });
+    
+    $this->get('/comments', function(Request $req, Response $resp) {
+        $response = $resp->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(GetAPI::getComments());
+        return $response;
+    });
+    
+    $this->get('/comment/{id}', function(Request $req, Response $resp, $args) {
+        $id = $args['id'];
+        $response = $resp->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(GetAPI::getComment($id));
+        return $response;
+    });
+    
+    $this->get('/shared', function(Request $req, Response $resp) {
+        $response = $resp->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(GetAPI::getShared());
+        return $response;
+    });
+    
+    $this->get('/shared/{id}', function(Request $req, Response $resp, $args) {
+        $id = $args['id'];
+        $response = $resp->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(GetAPI::getSharedEvent($id));
+        return $response;
+    });
+})->add(new TokenMiddleware($c));
 
 $app->run();
