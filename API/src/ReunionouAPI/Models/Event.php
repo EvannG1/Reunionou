@@ -10,7 +10,7 @@ class Event extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    public function locations(){
+    public function location(){
         return $this->belongsTo('ReunionouAPI\Models\Location', 'location_id');
     }
 

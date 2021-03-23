@@ -9,5 +9,6 @@ class User extends Model
     protected $table = 'users';
     protected $primaryKey = 'id';
     public $timestamps = false;
+    protected $hidden = ['password'];
 
 }

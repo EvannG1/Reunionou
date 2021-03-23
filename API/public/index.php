@@ -38,5 +38,30 @@ $app->get('/event/{id}', function(Request $req, Response $resp, $args) {
     return $response;
 });
 
+$app->get('/comments', function(Request $req, Response $resp) {
+    $response = $resp->withHeader('Content-Type', 'application/json');
+    $response->getBody()->write(API::getComments());
+    return $response;
+});
+
+$app->get('/comment/{id}', function(Request $req, Response $resp, $args) {
+    $id = $args['id'];
+    $response = $resp->withHeader('Content-Type', 'application/json');
+    $response->getBody()->write(API::getComment($id));
+    return $response;
+});
+
+$app->get('/shared', function(Request $req, Response $resp) {
+    $response = $resp->withHeader('Content-Type', 'application/json');
+    $response->getBody()->write(API::getShared());
+    return $response;
+});
+
+$app->get('/shared/{id}', function(Request $req, Response $resp, $args) {
+    $id = $args['id'];
+    $response = $resp->withHeader('Content-Type', 'application/json');
+    $response->getBody()->write(API::getSharedEvent($id));
+    return $response;
+});
 
 $app->run();
