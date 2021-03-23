@@ -16,7 +16,7 @@ class Cors {
     public function checkAndAddCorsHeaders(Request $rq, Response $rs, callable $next): Response {
 
         if (! $rq->hasHeader('Origin'))
-            return Writer::json_error($rs, 401, "missing Origin Header (cors)");
+            // return Writer::json_error($rs, 401, "missing Origin Header (cors)");
 
             $response = $next($rq, $rs);
 
