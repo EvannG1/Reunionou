@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.3
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : lun. 22 mars 2021 à 11:51
--- Version du serveur :  10.4.14-MariaDB
--- Version de PHP : 7.4.11
+-- Généré le : mar. 23 mars 2021 à 10:32
+-- Version du serveur :  10.4.18-MariaDB
+-- Version de PHP : 7.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `reunionou`
+-- Base de données : `reunionou #1`
 --
 
 -- --------------------------------------------------------
@@ -53,6 +53,19 @@ CREATE TABLE `events` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `guests`
+--
+
+CREATE TABLE `guests` (
+  `id_guests` int(127) NOT NULL,
+  `status_id` int(127) NOT NULL,
+  `u_id` int(127) NOT NULL,
+  `e_id` int(127) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `location`
 --
 
@@ -61,6 +74,17 @@ CREATE TABLE `location` (
   `adresse` text NOT NULL,
   `code` int(5) NOT NULL,
   `ville` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `status`
+--
+
+CREATE TABLE `status` (
+  `id_status` int(127) NOT NULL,
+  `libelle` varchar(127) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -97,10 +121,25 @@ ALTER TABLE `events`
   ADD KEY `FK_location` (`location_id`);
 
 --
+-- Index pour la table `guests`
+--
+ALTER TABLE `guests`
+  ADD PRIMARY KEY (`id_guests`),
+  ADD KEY `FK_u` (`u_id`),
+  ADD KEY `FK_e` (`e_id`),
+  ADD KEY `FK_status` (`status_id`);
+
+--
 -- Index pour la table `location`
 --
 ALTER TABLE `location`
   ADD PRIMARY KEY (`id_location`);
+
+--
+-- Index pour la table `status`
+--
+ALTER TABLE `status`
+  ADD PRIMARY KEY (`id_status`);
 
 --
 -- Index pour la table `users`
@@ -125,10 +164,22 @@ ALTER TABLE `events`
   MODIFY `id_events` int(127) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `guests`
+--
+ALTER TABLE `guests`
+  MODIFY `id_guests` int(127) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `location`
 --
 ALTER TABLE `location`
   MODIFY `id_location` int(127) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `status`
+--
+ALTER TABLE `status`
+  MODIFY `id_status` int(127) NOT NULL AUTO_INCREMENT;
 
 --
 -- Contraintes pour les tables déchargées
@@ -146,6 +197,14 @@ ALTER TABLE `comments`
 --
 ALTER TABLE `events`
   ADD CONSTRAINT `FK_location` FOREIGN KEY (`location_id`) REFERENCES `location` (`id_location`);
+
+--
+-- Contraintes pour la table `guests`
+--
+ALTER TABLE `guests`
+  ADD CONSTRAINT `FK_e` FOREIGN KEY (`e_id`) REFERENCES `events` (`id_events`),
+  ADD CONSTRAINT `FK_status` FOREIGN KEY (`status_id`) REFERENCES `status` (`id_status`),
+  ADD CONSTRAINT `FK_u` FOREIGN KEY (`u_id`) REFERENCES `users` (`id_users`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
