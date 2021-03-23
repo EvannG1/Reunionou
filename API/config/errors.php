@@ -12,12 +12,15 @@ return [
             $rs = $rs->WithStatus(400)
                      ->withHeader('Content-Type', 'application/json');
 
-            $rs->write(json_encode(['type'=>'error',
-                'error'=>400,
-                "message"=>"$uri : url incorrect "
-            ]));
+            $rs->write(json_encode(
+                [
+                    'type'      => 'error',
+                    'error'     => 400,
+                    "message"   => "$uri : url incorrect"
+                ]
+            ));
 
-            $c->get('logger.error')->error("GET $uri : malformed uri");
+            // $c->get('logger.error')->error("GET $uri : malformed uri");
             return $rs;
         };
     },
@@ -31,7 +34,7 @@ return [
                     ->withHeader('Allow', implode(', ', $methods))
                     ->write( json_encode(['type'=>'error',
                     'error'=>405,
-                    "message"=>"method $method not allowed for uri $uri - (should be".
+                    "message"=>"method $method not allowed for uri $uri - (should be ".
                     implode(', ',$methods).')']));
             return $rs;
         };
