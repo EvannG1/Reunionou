@@ -11,4 +11,10 @@ class Controller {
         return json_encode($events);
     }
 
+    public static function getEvent($id) {
+        $events = Event::where('id', $id)->with('locations')->get();
+        $events->makeHidden(['location_id']);
+        return json_encode($events);
+    }
+
 }

@@ -31,5 +31,12 @@ $app->get('/events', function(Request $req, Response $resp) {
     return $response;
 });
 
+$app->get('/event/{id}', function(Request $req, Response $resp, $args) {
+    $id = $args['id'];
+    $response = $resp->withHeader('Content-Type', 'application/json');
+    $response->getBody()->write(API::getEvent($id));
+    return $response;
+});
+
 
 $app->run();
