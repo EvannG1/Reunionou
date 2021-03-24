@@ -179,7 +179,7 @@ function updateUser(id, leBtn) {
                 if (http.responseText == 'success') {
                     $(lineUpdate).find('.panel_fullnameUtilisateur').text(fullname);
                     $(lineUpdate).find('.panel_emailUtilisateur').text(email);
-                    $(lineUpdate).find('.panel_tokenUtilisateur').text(token);
+                    $(lineUpdate).find('.panel_tokenUtilisateur').text("Rechargez la page");
 
                     $(model).modal('hide');
                     showNotification('success', "Succès : L'utlisateur " + fullname + " a bien été modifié.");

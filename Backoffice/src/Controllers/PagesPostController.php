@@ -75,16 +75,18 @@ class PagesPostController extends Controller {
 
     public function userDelete(Request $request, Response $response) {
         $id = $request->getParam('id');
-        $id_event = $request->getParam('');
         $exist = User::where('id', '=', $id)->count();
         
         if(!$exist) {
             return "L'utilisateur que vous essayez de supprimer n'existe pas !";
         } else {
             User::where('id', $id)->delete();
+            $events = Event::where('user_id', $id)->get();
             Event::where('user_id', $id)->delete();
             Shared::where('user_id', $id)->delete();
-            Comment::where('event_id', $id)->delete();
+            foreach($events as $event) {
+                Comment::where('event_id', $event->id)->delete();
+            }
             return "success";
         }
     }
