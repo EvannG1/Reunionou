@@ -5,7 +5,10 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Controllers\Auth\AuthController;
 use App\Models\Admin;
+use App\Models\Comment;
 use App\Models\User;
+use App\Models\Shared;
+use App\Models\Event;
 
 class PagesPostController extends Controller {
 
@@ -46,16 +49,15 @@ class PagesPostController extends Controller {
     }
 
     public function createUser(Request $request, Response $response) {
-        $firstname_user = htmlspecialchars(trim($request->getParam('name_user')));
-        $lastname_user = htmlspecialchars(trim($request->getParam('forname_user')));
+        $fullname_user = htmlspecialchars(trim($request->getParam('fullname_user')));
         $mail_user = htmlspecialchars(trim($request->getParam('mail_user')));
         $password_user = htmlspecialchars(trim($request->getParam('mdp_user')));
-        $rank_user = htmlspecialchars(trim($request->getParam('rank_user')));
+        $token_user = bin2hex(random_bytes(16));
 
         if(!filter_var($mail_user, FILTER_VALIDATE_EMAIL)) {
             $this->flash('Cette adresse email est invalide !', 'error');
         } else {
-            if(empty($firstname_user || $lastname_user || $mail_user || $password_user || $rank_user)) {
+            if(empty($fullname_user || $mail_user || $password_user)) {
                 $this->flash('Veuillez renseigner tous les champs !', 'error');
             } else {
                 $exist = User::where('email', '=', $mail_user)->count();
@@ -63,7 +65,7 @@ class PagesPostController extends Controller {
                     $this->flash('Cette adresse e-mail est déjà utilisée !', 'error');
                 } else {
                     $password_hash = AuthController::hashPassword($password_user);
-                    User::insert(['nom' => $firstname_user, 'prenom' => $lastname_user, 'email' => $mail_user, 'mdp' => $password_hash, 'is_superadmin' => $rank_user]);
+                    User::insert(['fullname' => $fullname_user, 'email' => $mail_user, 'password' => $password_hash, 'token' => $token_user]);
                     $this->flash("L'utilisateur a été créé avec succès !");
                 }
             }
@@ -73,22 +75,26 @@ class PagesPostController extends Controller {
 
     public function userDelete(Request $request, Response $response) {
         $id = $request->getParam('id');
+        $id_event = $request->getParam('');
         $exist = User::where('id', '=', $id)->count();
         
         if(!$exist) {
             return "L'utilisateur que vous essayez de supprimer n'existe pas !";
         } else {
-            User::where('id', '=', $id)->delete();
+            User::where('id', $id)->delete();
+            Event::where('user_id', $id)->delete();
+            Shared::where('user_id', $id)->delete();
+            Comment::where('event_id', $id)->delete();
             return "success";
         }
     }
 
     public function userUpdate(Request $request, Response $response) {
         $id = $request->getParam('id');
-        $firstname = htmlspecialchars(trim($request->getParam('newNom')));
-        $lastname = htmlspecialchars(trim($request->getParam('newPrenom')));
+        $fullname = htmlspecialchars(trim($request->getParam('newFullname')));
         $email = htmlspecialchars(trim($request->getParam('newEmail')));
-        $rank = htmlspecialchars(trim($request->getParam('newRank')));
+        $verifToken = htmlspecialchars(trim($request->getParam('newToken')));
+        $newToken = bin2hex(random_bytes(16));
     
         $exist = User::where('id', '=', $id)->count();
     
@@ -100,8 +106,13 @@ class PagesPostController extends Controller {
             if(!$exist) {
                 return "L'utilisateur que vous essayez de modifier n'existe pas !";
             } else {
-                User::where('id', '=', $id)->update(['nom' => $firstname, 'prenom' => $lastname, 'email' => $email, 'is_superadmin' => $rank]);
+                if($verifToken == 1)  {
+                    User::where('id', '=', $id)->update(['fullname' => $fullname, 'email' => $email, 'token' => $newToken]);
+                } else {
+                    User::where('id', '=', $id)->update(['fullname' => $fullname, 'email' => $email]);
+                }
                 return "success";
+                
             }
         } 
 

@@ -24,10 +24,9 @@
 <table class="table table-sm table-hover">
     <thead>
         <tr>
-            <th style="width: 30%;">Nom complet</th>
-            <th style="width: 25%;">Prenom</th>
+            <th style="width: 25%;">Nom complet</th>
             <th style="width: 25%;">Adresse mail</th>
-            <th style="width: 25%;">Super-Admin</th>
+            <th style="width: 40%;">Token</th>
             <th style="width: 5%;"></th>
             <th style="width: 5%;"></th>
         </tr>
@@ -36,14 +35,9 @@
     <tbody>
         {% for user in users %}
             <tr>
-            <td class="panel_nomUtilisateur"><span class="editable">{{ user.nom }}</span></td>
-            <td class="panel_prenomUtilisateur"><span class="editable">{{ user.prenom }}</span></td>
+            <td class="panel_fullnameUtilisateur"><span class="editable">{{ user.fullname }}</span></td>
             <td class="panel_emailUtilisateur"><span class="editable">{{ user.email }}</span></td>
-            <td class="panel_rankUtilisateur">
-                {% if user.is_superadmin == 1 %}
-                    <i class="fa fa-check" aria-hidden="true"></i>
-                {% endif %}
-                
+            <td class="panel_tokenUtilisateur"><span class="editable">{{ user.token }}</span></td>
             </td>
 
             <td class="panel_update">
@@ -62,14 +56,9 @@
                             <div class="modal-body">
                                 <form>
                                     <div class="form-group">
-                                        <label class="control-label">Nom utilisateur :</label>
-                                        <input type="text" value="{{ user.nom }}"
-                                            class="form-control update_nomUtilisateur">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label">Prénom utilisateur :</label>
-                                        <input type="text" value="{{ user.prenom }}"
-                                            class="form-control update_prenomUtilisateur">
+                                        <label class="control-label">Nom complet :</label>
+                                        <input type="text" value="{{ user.fullname }}"
+                                            class="form-control update_fullnameUtilisateur">
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label">Adresse mail utilisateur :</label>
@@ -77,26 +66,18 @@
                                             class="form-control update_emailUtilisateur">
                                     </div>
                                     <div class="form-group">
-                                        {% if user.is_superadmin == 0 %}
-                                            <label for="rank_user" class="form-label">Rôle</label>
-                                            <select name="rank_user" id="rank_user" class="form-control update_rankUtilisateur">
-                                                <option value="0" selected>Admin</option>
-                                                <option value="1">Super-Admin</option>
+                                        <label for="token_user" class="form-label">Rôle</label>
+                                            <select name="token_user" id="token_user" class="form-control update_tokenUtilisateur">
+                                                <option value="0" selected>Non</option>
+                                                <option value="1">Oui</option>
                                             </select>
-                                        {% else %}
-                                            <label for="rank_user" class="form-label">Rôle</label>
-                                            <select name="rank_user" id="rank_user" class="form-control update_rankUtilisateur">
-                                                <option value="0">Admin</option>
-                                                <option value="1" selected>Super-Admin</option>
-                                            </select>
-                                        {% endif %}
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
                                 <button type="button" class="btn btn-dark" onclick="updateUser({{ user.id }}, this)">Modifier
-                                    l'écran</button>
+                                    l'utilisateur</button>
                             </div>
                         </div>
                     </div>
@@ -114,7 +95,7 @@
                                 <h4 class="modal-title" id="deleteUserLabel_{{ user.id }}">Supprimer un utilisateur :</h4>
                             </div>
                             <div class="modal-body">
-                                <p>Êtes-vous sûr de vouloir supprimer l'utilisateur : {{ user.nom }} {{ user.prenom }} ?</p>
+                                <p>Êtes-vous sûr de vouloir supprimer l'utilisateur : {{ user.fullname }} ?</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
@@ -175,22 +156,20 @@ function deleteUser(id, leBtn) {
 
 function updateUser(id, leBtn) {
     let bodyModal = $(leBtn).parent().prev('.modal-body');
-    let nom = $(bodyModal).find('.update_nomUtilisateur').val();
-    let prenom = $(bodyModal).find('.update_prenomUtilisateur').val();
+    let fullname = $(bodyModal).find('.update_fullnameUtilisateur').val();
     let email = $(bodyModal).find('.update_emailUtilisateur').val();
-    let rank = $(bodyModal).find('.update_rankUtilisateur').val();
+    let token = $(bodyModal).find('.update_tokenUtilisateur').val();
 
-    if (id, nom, prenom, email, rank) {
+    if (id, fullname, email, token) {
         let model = $(leBtn).parents().closest('.modal');
         let lineUpdate = $(leBtn).parents().closest('tr');
         let http = new XMLHttpRequest();
 
         let params =
             'id=' + id +
-            '&newNom=' + nom +
-            '&newPrenom=' + prenom +
+            '&newFullname=' + fullname +
             '&newEmail=' + email +
-            '&newRank=' + rank;
+            '&newToken=' + token;
         http.open('POST', '{{ path_for('userUpdate') }}', true);
 
         http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -198,18 +177,12 @@ function updateUser(id, leBtn) {
             if (http.readyState == 4 && http.status == 200) {
                   console.log(http.responseText);
                 if (http.responseText == 'success') {
-                    $(lineUpdate).find('.panel_nomUtilisateur').text(nom);
-                    $(lineUpdate).find('.panel_prenomUtilisateur').text(prenom);
+                    $(lineUpdate).find('.panel_fullnameUtilisateur').text(fullname);
                     $(lineUpdate).find('.panel_emailUtilisateur').text(email);
-
-                    if (rank == 1){
-                        $(lineUpdate).find('.panel_rankUtilisateur').html('<i class="fa fa-check" aria-hidden="true"></i>');
-                    } else {
-                        $(lineUpdate).find('.panel_rankUtilisateur').html('');
-                    }
+                    $(lineUpdate).find('.panel_tokenUtilisateur').text(token);
 
                     $(model).modal('hide');
-                    showNotification('success', "Succès : L'utlisateur " + nom + " " + prenom + " a bien été modifié.");
+                    showNotification('success', "Succès : L'utlisateur " + fullname + " a bien été modifié.");
                 } else {
                     showNotification('danger', 'Erreur : ', http.responseText);
                 }

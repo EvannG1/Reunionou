@@ -22,12 +22,8 @@
 <div class="box">
     <form action="{{ path_for('createUser') }}" method="post">
     <div class="mb-3">
-        <label for="name_user" class="form-label">Nom</label>
-        <input type="text" class="form-control" id="name_user" name="name_user" required>
-    </div>
-    <div class="mb-3">
-        <label for="forname_user" class="form-label">Prenom</label>
-        <input type="text" class="form-control" id="forname_user" name="forname_user" required>
+        <label for="fullname_user" class="form-label">Nom complet</label>
+        <input type="text" class="form-control" id="fullname_user" name="fullname_user" required>
     </div>
     <div class="mb-3">
         <label for="mail_user" class="form-label">E-mail</label>
@@ -37,14 +33,7 @@
         <label for="mdp_user" class="form-label">Mot de passe</label>
         <input type="password" class="form-control" id="mdp_user" name="mdp_user" required>
     </div>
-    <div class="mb-3">
-        <label for="rank_user" class="form-label">Rôle</label>
-        <select class="custom-select" name="rank_user" id="rank_user">
-            <option value="0" selected>Admin</option>
-            <option value="1">Super-Admin</option>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-outline-success btn-sm">Créer l'utilisateur'</button>
+    <button type="submit" class="btn btn-outline-success btn-sm">Créer l'utilisateur</button>
     </form>
 </div>
 {% endblock %}
