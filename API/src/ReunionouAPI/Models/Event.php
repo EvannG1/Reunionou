@@ -10,6 +10,8 @@ class Event extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
+    protected $fillable = ['title', 'description', 'date', 'location_id', 'user_id', 'token'];
+
     public function location(){
         return $this->belongsTo('ReunionouAPI\Models\Location', 'location_id');
     }
