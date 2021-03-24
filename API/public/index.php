@@ -29,12 +29,15 @@ $app->options('/{routes:.+}', function(Request $rq, Response $rs, array $args) {
 });
 
 $app->group('', function() {
+
+    // Route (GET) : récupère la liste de tous les évènements
     $this->get('/events', function(Request $req, Response $resp) {
         $response = $resp->withHeader('Content-Type', 'application/json');
         $response->getBody()->write(GetAPI::getEvents());
         return $response;
     });
     
+    // Route (GET) : récupère un évènement depuis son ID
     $this->get('/event/{id}', function(Request $req, Response $resp, $args) {
         $id = $args['id'];
         $response = $resp->withHeader('Content-Type', 'application/json');
@@ -42,12 +45,14 @@ $app->group('', function() {
         return $response;
     });
     
+    // Route (GET) : récupère la liste de tous les commentaires
     $this->get('/comments', function(Request $req, Response $resp) {
         $response = $resp->withHeader('Content-Type', 'application/json');
         $response->getBody()->write(GetAPI::getComments());
         return $response;
     });
     
+    // Route (GET) : récupère la liste de tous les commentaires associées à un évènement depuis son ID
     $this->get('/comments/{id}', function(Request $req, Response $resp, $args) {
         $id = $args['id'];
         $response = $resp->withHeader('Content-Type', 'application/json');
@@ -55,12 +60,14 @@ $app->group('', function() {
         return $response;
     });
     
+    // Route (GET) : récupère la liste de tous les partages
     $this->get('/shared', function(Request $req, Response $resp) {
         $response = $resp->withHeader('Content-Type', 'application/json');
         $response->getBody()->write(GetAPI::getShared());
         return $response;
     });
     
+    // Route (GET) : récupère la liste de tous les partages associés à un évènement depuis son ID
     $this->get('/shared/{id}', function(Request $req, Response $resp, $args) {
         $id = $args['id'];
         $response = $resp->withHeader('Content-Type', 'application/json');
