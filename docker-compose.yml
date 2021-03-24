@@ -49,8 +49,10 @@ services:
     - "19180:80"
     - "19143:443"
     volumes:
-    - ./Backoffice/public:/var/www/html
+    - ./Backoffice/public:/var/www/web
     - ./Backoffice/src:/var/www/src
+    - ./Backoffice/config:/var/www/config
+    - ./Backoffice/src:/var/www/tmp
     working_dir: /var/www/src
     networks:
     - d.net
