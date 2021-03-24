@@ -76,7 +76,7 @@ $app->group('', function() {
         return $response;
     });
 
-    // Route (POST) : permet la connexion
+    // Route (POST) : permet de créer un évènement
     $this->post('/create/event', function(Request $req, Response $resp) {
         $title = $req->getParam('title');
         $description = $req->getParam('description');
@@ -89,13 +89,28 @@ $app->group('', function() {
         $response->getBody()->write(PostAPI::postEvent($title, $description, $date, $location, $x, $y));
         return $response;
     });
+
+    // Route (POST) : permet de modifier un évènement
+    $this->post('/edit/event/{id}', function(Request $req, Response $resp, $args) {
+        $id = $args['id'];
+        $title = $req->getParam('title');
+        $description = $req->getParam('description');
+        $date = $req->getParam('date');
+        $location = $req->getParam('location');
+        $x = $req->getParam('x');
+        $y = $req->getParam('y');
+
+        $response = $resp->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(PostAPI::editEvent($id, $title, $description, $date, $location, $x, $y));
+        return $response;
+    });
 })->add(new TokenMiddleware($c));
 
 // Route (POST) : permet la connexion
 $app->post('/signin', function(Request $req, Response $resp) {
     $email = $req->getParam('email');
     $password = $req->getParam('password');
-    
+
     $response = $resp->withHeader('Content-Type', 'application/json');
     $response->getBody()->write(PostAPI::signin($email, $password));
     return $response;
