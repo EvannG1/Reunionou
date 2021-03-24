@@ -10,4 +10,6 @@ class Location extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
+    protected $fillable = ['name', 'x', 'y'];
+
 }
