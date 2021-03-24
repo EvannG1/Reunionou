@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : mar. 23 mars 2021 à 15:56
+-- Généré le : mer. 24 mars 2021 à 09:35
 -- Version du serveur :  10.5.9-MariaDB-1:10.5.9+maria~focal
 -- Version de PHP : 7.4.16
 
@@ -20,6 +20,25 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `com`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `admins`
+--
+
+CREATE TABLE `admins` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `admins`
+--
+
+INSERT INTO `admins` (`id`, `email`, `password`) VALUES
+(1, 'admin@local.dev', '$2y$10$QSOXv3cyDhvzB380Qwi8Pu4HZ8CS3ZicQBFLljaIpSolaBt9ws5OG');
 
 -- --------------------------------------------------------
 
@@ -140,6 +159,12 @@ INSERT INTO `users` (`id`, `fullname`, `email`, `password`, `token`) VALUES
 --
 
 --
+-- Index pour la table `admins`
+--
+ALTER TABLE `admins`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `comments`
 --
 ALTER TABLE `comments`
@@ -172,6 +197,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT pour les tables déchargées
 --
+
+--
+-- AUTO_INCREMENT pour la table `admins`
+--
+ALTER TABLE `admins`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `comments`
