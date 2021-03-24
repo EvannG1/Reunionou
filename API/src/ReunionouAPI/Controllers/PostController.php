@@ -45,6 +45,8 @@ class PostController {
             } else {
                 return self::error(self::$message['incorrect']);
             }
+        } else {
+            return self::error(self::$message['incorrect']);
         }
     }
 
