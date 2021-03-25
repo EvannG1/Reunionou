@@ -1,3 +1,4 @@
+*.DS_Store
 API/src/vendor
 Backoffice/src/vendor
 API/src/composer.lock
