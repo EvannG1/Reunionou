@@ -85,7 +85,7 @@ class PostController {
     }
 
     public static function deleteEvent($id){
-        $exist = Event::where('id', $id)->count();
+        $exist = Event::where(['id' => $id, 'user_id' => $_SESSION['id']])->count();
         if(!$exist) {
             return self::error(self::$message['exist']);
         } else {
