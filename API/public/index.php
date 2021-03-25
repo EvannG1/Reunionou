@@ -104,6 +104,14 @@ $app->group('', function() {
         $response->getBody()->write(PostAPI::editEvent($id, $title, $description, $date, $location, $x, $y));
         return $response;
     });
+
+    // Route (POST) : permet de modifier un évènement
+    $this->post('/delete/event/{id}', function(Request $req, Response $resp, $args) {
+        $id = $args['id'];
+        $response = $resp->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(PostAPI::deleteEvent($id));
+        return $response;
+    });
 })->add(new TokenMiddleware($c));
 
 // Route (POST) : permet la connexion

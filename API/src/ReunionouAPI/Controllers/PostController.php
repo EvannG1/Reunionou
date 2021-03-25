@@ -2,9 +2,11 @@
 namespace ReunionouAPI\Controllers;
 
 use ReunionouAPI\Controllers\AuthController;
+use ReunionouAPI\Models\Comment;
 use ReunionouAPI\Models\Event;
 use ReunionouAPI\Models\User;
 use ReunionouAPI\Models\Location;
+use ReunionouAPI\Models\Shared;
 
 class PostController {
 
@@ -79,6 +81,19 @@ class PostController {
     
                 return self::success();
             }
+        }
+    }
+
+    public static function deleteEvent($id){
+        $exist = Event::where('id', $id)->count();
+        if(!$exist) {
+            return self::error(self::$message['exist']);
+        } else {
+            Comment::where('event_id', $id)->delete();
+            Shared::where('event_id', $id)->delete();
+            Event::where('id', $id)->delete();
+
+            return self::success();
         }
     }
 
