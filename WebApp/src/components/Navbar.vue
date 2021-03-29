@@ -53,18 +53,18 @@ export default {
         },
         logout() {
             this.$store.commit('logout');
-            document.location.reload();
+            document.location.href = '/login';
         }
     },
     beforeMount() {
         this.checkLogin();
         if (!this.$store.state.token) {
             if (this.$route.name != 'Login') {
-                this.$router.push('/login');
+                document.location.href = '/login';
             }
         } else {
             if (this.$route.name == 'Login') {
-                this.$router.push('/');
+                document.location.href = '/';
             }
         }
     },
