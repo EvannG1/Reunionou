@@ -12,7 +12,7 @@ class GetController {
         $events->makeHidden(['location_id', 'user_id']);
 
         $shareds = Shared::where('user_id', $_SESSION['id'])->with('event.location', 'event.author')->get();
-        $shareds->makeHidden(['location_id', 'user_id']);
+        $shareds->makeHidden(['location_id', 'user_id', 'id', 'event_id']);
 
         return json_encode(['owned' => $events, 'shared' => $shareds]);
     }
