@@ -10,21 +10,14 @@
       </div>
 
       <div class="row">
-        <div class="col-7">
+        <div class="col-12 col-sm-7">
           <div class="card mb-3">
             <l-map v-if="showMap" :zoom="zoom" :center="center" :options="mapOptions" style="height: 350px; width: 100%;"
               @update:center="centerUpdate" @update:zoom="zoomUpdate">
               <l-tile-layer :url="url" :attribution="attribution" />
               <l-marker :lat-lng="withTooltip">
                 <l-tooltip :options="{ permanent: true, interactive: true }">
-                  <div @click="innerClick">
-                    {{ location.name }}
-                    <p v-show="showParagraph">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-                      sed pretium nisl, ut sagittis sapien. Sed vel sollicitudin nisi.
-                      Donec finibus semper metus id malesuada.
-                    </p>
-                  </div>
+                  {{ location.name }}
                 </l-tooltip>
               </l-marker>
             </l-map>
@@ -35,7 +28,7 @@
             </div>
           </div>
         </div>
-        <div class="col-5">
+        <div class="col-12 col-sm-5">
           <div v-for="(event, index) in events" class="list-group">
             <a @click="selectEvent(event.title, event.description, event.date, event.author, event.location, index)" href="#" class="list-group-item list-group-item-action">
               <div class="d-flex w-100 justify-content-between">
@@ -65,6 +58,9 @@ import { latLng } from "leaflet";
 import { LMap, LTileLayer, LMarker, LTooltip } from "vue2-leaflet";
 import { Icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import moment from 'moment';
+
+moment.locale('fr');
 
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
@@ -99,7 +95,6 @@ export default {
       withTooltip: latLng(47.41422, -1.250482),
       currentZoom: 15,
       currentCenter: latLng(location.x, location.y),
-      showParagraph: false,
       mapOptions: {
         zoomSnap: 0.5
       },
@@ -135,14 +130,19 @@ export default {
     api.get('events').then(response => {
         this.title = response.data.owned[0].title;
         this.description = response.data.owned[0].description;
-        this.date = response.data.owned[0].date;
+        this.date = moment(response.data.owned[0].date).format('L à LT');
         this.author = response.data.owned[0].author.fullname;
         this.location = response.data.owned[0].location;
-        this.center = latLng(response.data.owned[0].location.x, response.data.owned[0].location.y)
-      this.currentCenter = latLng(response.data.owned[0].location.x, response.data.owned[0].location.y)
-        this.withTooltip = latLng(response.data.owned[0].location.x, response.data.owned[0].location.y)
+        this.center = latLng(response.data.owned[0].location.x, response.data.owned[0].location.y);
+        this.currentCenter = latLng(response.data.owned[0].location.x, response.data.owned[0].location.y);
+        this.withTooltip = latLng(response.data.owned[0].location.x, response.data.owned[0].location.y);
+
         response.data.owned.forEach(element => {
           this.events.push(element);
+        });
+
+        this.events.forEach(element => {
+          element.date = moment(element.date).format('L à LT');
         });
     });
   }

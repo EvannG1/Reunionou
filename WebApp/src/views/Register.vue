@@ -5,10 +5,17 @@
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="card">
-                        <div class="card-header"><font-awesome-icon icon="sign-in-alt"></font-awesome-icon> Page de connexion</div>
+                        <div class="card-header"><font-awesome-icon icon="user-plus"></font-awesome-icon> Page d'inscription</div>
                         <div class="card-body">
-                            <form @submit.prevent="login()">
+                            <form @submit.prevent="register()">
                                 <div class="form-group row">
+                                    <label for="fullname" class="col-md-4 col-form-label text-md-right">Nom complet</label>
+                                    <div class="col-md-6">
+                                        <input v-model="fullname" type="text" id="fullname" class="form-control" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mt-3 mb-3">
                                     <label for="email" class="col-md-4 col-form-label text-md-right">Adresse mail</label>
                                     <div class="col-md-6">
                                         <input v-model="email" type="email" id="email" class="form-control" required>
@@ -47,21 +54,16 @@ export default {
   },
   data() {
       return {
-          email: 'john@local.dev',
-          password: 'admin'
+          fullname: '',
+          email: '',
+          password: ''
       }
   },
   methods: {
-      login() {
-          api.post('signin', {
-             email: this.email,
-             password: this.password 
-          }).then(response => {
-              this.$store.commit('setFullname', response.data.fullname);
-              this.$store.commit('setEmail', response.data.email);
-              this.$store.commit('setToken', response.data.token);
-              this.$router.push('/');
-          })
+      register() {
+          console.log(this.fullname)
+          console.log(this.email)
+          console.log(this.password)
       }
   }
 }

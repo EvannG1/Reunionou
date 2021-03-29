@@ -11,7 +11,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <router-link to="/" class="nav-link">Accueil</router-link>
+                            <router-link to="/" class="nav-link">Mes évènements</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link to="/" class="nav-link">Évènements partagés</router-link>
                         </li>
                     </ul>
                     <ul v-if="isLogged" class="navbar-nav">
@@ -21,7 +24,10 @@
                     </ul>
                     <ul v-else class="navbar-nav">
                         <li class="nav-item">
-                            <router-link to="/login" class="nav-link">Connexion</router-link>
+                            <router-link to="/login" class="nav-link"><font-awesome-icon icon="sign-in-alt"></font-awesome-icon> Connexion</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link to="/register" class="nav-link"><font-awesome-icon icon="user-plus"></font-awesome-icon> Inscription</router-link>
                         </li>
                     </ul>
                 </div>
@@ -58,15 +64,6 @@ export default {
     },
     beforeMount() {
         this.checkLogin();
-        if (!this.$store.state.token) {
-            if (this.$route.name != 'Login') {
-                document.location.href = '/login';
-            }
-        } else {
-            if (this.$route.name == 'Login') {
-                document.location.href = '/';
-            }
-        }
     },
 }
 </script>
