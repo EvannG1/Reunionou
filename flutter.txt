@@ -1,0 +1,9 @@
+###### HELPER FLUTTER
+
+----------------------------
+
+// problème avec l'ajout d'un package (exemple : flutter_native_splash)
+- pubspec.yaml : ajouté dans les devs dépendences ("flutter_native_splash: "^0.2.6")
+- pubspec.yaml : ajouté la config de flutter_native_splash (color, image..)
+- faire un pub get
+- faire dans le terminal "flutter pub run flutter_native_splash:create"
