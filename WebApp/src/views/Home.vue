@@ -22,7 +22,7 @@
         </div>
         <div class="col-5">
           <div v-for="(event, index) in events" class="list-group">
-            <a @click="selectEvent(event.title, event.description, event.date, event.author, index)" href="#" class="list-group-item list-group-item-action" :class="{active:this.index == index}">
+            <a @click="selectEvent(event.title, event.description, event.date, event.author, index)" href="#" class="list-group-item list-group-item-action">
               <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{ event.title }}</h5>
                 <small><font-awesome-icon icon="map-marker-alt"></font-awesome-icon> {{ event.location.name }}</small>
