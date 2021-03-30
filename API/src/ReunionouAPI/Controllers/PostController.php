@@ -12,9 +12,10 @@ class PostController {
 
     public static $message = 
     [
-        "empty"     =>  "Un ou plusieurs champs sont manquants !",
-        "exist"     =>  "La ressource spécifiée n'existe pas !",
-        "incorrect" =>  "Email ou mot de passe incorrect !"
+        "empty"         =>  "Un ou plusieurs champs sont manquants !",
+        "exist"         =>  "La ressource spécifiée n'existe pas !",
+        "incorrect"     =>  "Email ou mot de passe incorrect !",
+        "email_taken"   => "L'adresse email spécifiée n'est pas disponible !"
     ];
 
     private static function success(){
@@ -49,6 +50,18 @@ class PostController {
             }
         } else {
             return self::error(self::$message['incorrect']);
+        }
+    }
+
+    public static function signup($fullname, $email, $password) {
+        $user = User::where('email', $email)->first();
+        if(is_null($user)) {
+            $password = AuthController::hashPassword($password);
+            $token = self::generateToken();
+            User::insert(['fullname' => $fullname, 'email' => $email, 'password' => $password, 'token' => $token]);
+            return self::success();
+        } else {
+            return self::error(self::$message['email_taken']);
         }
     }
 

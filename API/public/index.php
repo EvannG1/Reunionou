@@ -132,4 +132,15 @@ $app->post('/signin', function(Request $req, Response $resp) {
     return $response;
 });
 
+// Route (POST) : permet l'inscription
+$app->post('/signup', function(Request $req, Response $resp) {
+    $fullname = $req->getParam('fullname');
+    $email = $req->getParam('email');
+    $password = $req->getParam('password');
+
+    $response = $resp->withHeader('Content-Type', 'application/json');
+    $response->getBody()->write(PostAPI::signup($fullname, $email, $password));
+    return $response;
+});
+
 $app->run();
