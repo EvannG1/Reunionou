@@ -4,6 +4,7 @@ import 'package:reunionou_app/models/Auth.dart';
 import 'package:reunionou_app/pages/Home.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart';
+import 'package:geolocation/geolocation.dart';
 
 class Login extends StatefulWidget {
   static const routeName = '/login';
@@ -99,6 +100,24 @@ class _LoginState extends State<Login> {
                         _userAuth = await _userAuth.seConnecter(email, password, context);
                         if(_userAuth.connected){
                           //widget.onAuthUpdateCallback(_userAuth);
+                          () async {
+                            Geolocation.enableLocationServices().then((result) {
+                              // Request location
+
+                              print(result);
+                            }).catchError((e) {
+                              // Location Services Enablind Cancelled
+                              print(e);
+                            });
+
+                            Geolocation.currentLocation(accuracy: LocationAccuracy.best)
+                                .listen((result) {
+                              if (result.isSuccessful) {
+                                _userAuth.lat = result.location.latitude;
+                                _userAuth.long = result.location.longitude;
+                              }
+                            });
+                          }();
                           Navigator.push(
                             context,
                             PageTransition(

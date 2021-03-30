@@ -28,6 +28,7 @@ dependencies:
   http: ^0.13.1
   flutter_map: ^0.12.0
   font_awesome_flutter: ^9.0.0
+  geolocation: ^1.1.2
 
 
   # The following adds the Cupertino Icons font to your application.

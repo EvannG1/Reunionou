@@ -48,5 +48,14 @@
                     <key>NSAllowsArbitraryLoads</key>
                     <true/>
             </dict>
+        <!-- for iOS 11 + -->
+          <key>NSLocationWhenInUseUsageDescription</key>
+          <string>Nous avons besoin de connaître votre position pour gérer la distance entre un événement et vous.</string>
+          <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+          <string>Nous avons besoin de connaître votre position pour gérer la distance entre un événement et vous.</string>
+
+          <!-- additionally for iOS 9/10, if you need always permission -->
+          <key>NSLocationAlwaysUsageDescription</key>
+          <string>Nous avons besoin de connaître votre position pour gérer la distance entre un événement et vous.</string>
 	</dict>
 </plist>

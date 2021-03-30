@@ -12,6 +12,8 @@ class Auth{
   String email;
   String token;
   bool connected = false;
+  double lat;
+  double long;
 
   Future<Auth> seConnecter(String login, String password, context) async{
     var response;

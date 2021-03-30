@@ -44,11 +44,11 @@ class EventPage extends StatelessWidget{
   }
 
   void _init(BuildContext context){
-    //GET DISTANCE
-    print(getDistanceFromLatLonInKm(73.4545,73.4545,83.5454,83.5454));
-
     //GET EVENT
     event = ModalRoute.of(context).settings.arguments;
+
+    //GET DISTANCE (en KM avec que 2 chiffres après la virgule)
+    event.distanceBetweenAuth = num.parse(getDistanceFromLatLonInKm(event.location.x,event.location.y,loggedUser.lat,loggedUser.long).toStringAsFixed(2));
 
     //CONVERT DATE ENG TO FR
     if(!event.date.contains("à")) {
@@ -296,6 +296,21 @@ class EventPage extends StatelessWidget{
                                     child:Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
+                                        Padding(padding: EdgeInsets.only(right:15), child: Icon(FontAwesomeIcons.road, color: HexColor("#4E1A1A"))),
+                                        Expanded(child: Text(
+                                          "Vous êtes à " + event.distanceBetweenAuth.toString() + "km de l'événement",
+                                          style: TextStyle(color: Colors.black, fontSize: 16),
+                                        ),
+                                        ),
+                                      ],
+                                    )
+                                ),
+                                SizedBox(height: 20),
+                                Padding(
+                                    padding: EdgeInsets.only(left: 20, right: 20),
+                                    child:Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
                                         Padding(padding: EdgeInsets.only(right:15), child: Icon(FontAwesomeIcons.calendarDay, color: HexColor("#4E1A1A"))),
                                         Text(
                                           event.date,
@@ -311,10 +326,17 @@ class EventPage extends StatelessWidget{
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
                                         Padding(padding: EdgeInsets.only(right:15), child: Icon(FontAwesomeIcons.userAlt, color: HexColor("#4E1A1A"))),
-                                        Text(
-                                          event.author.fullname.toUpperCase(),
-                                          style: TextStyle(color: Colors.black, fontSize: 16),
-                                        )
+                                        if(event.author.fullname == loggedUser.fullname) ...[
+                                          Text(
+                                            event.author.fullname.toUpperCase() + " (VOUS)",
+                                            style: TextStyle(color: Colors.black, fontSize: 16),
+                                          )
+                                        ]else ...[
+                                          Text(
+                                            event.author.fullname.toUpperCase(),
+                                            style: TextStyle(color: Colors.black, fontSize: 16),
+                                          )
+                                        ]
                                       ],
                                     )
                                 ),

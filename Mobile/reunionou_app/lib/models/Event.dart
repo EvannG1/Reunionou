@@ -12,6 +12,7 @@ class Event{
   Location location;//var location = {"id" : 1, "name" : "tour eiffel"......};
   bool isOwned;
   List<User> invitedUser = [];
+  double distanceBetweenAuth;
 
   Event(this.id, this.author, this.title, this.description, this.date, this.token, this.location, this.isOwned);
 }
