@@ -30,8 +30,8 @@
 
 
           <div class="btn-group mb-3 w-100" role="group">
-            <button type="button" class="btn btn-primary">Je serais présent</button>
-            <button type="button" class="btn btn-danger">Je serais absent</button>
+            <button @click="postAvailable(id)" type="button" class="btn btn-primary">Je serais présent</button>
+            <button @click="postAbsent(id)" type="button" class="btn btn-danger">Je serais absent</button>
           </div>
 
           <div class="card">
@@ -148,15 +148,48 @@ export default {
           });
       });
     },
+
+    postAvailable(id) {
+      content = "Je serais présent.";
+      api.post('comment/' + id, {
+        content: content,
+        event_id: id
+      }).then(response => {
+        this.getComments();
+      });
+    },
+
+    postAbsent(id) {
+      content = "Je serais absent.";
+      api.post('comment/' + id, {
+        content: content,
+        event_id: id
+      }).then(response => {
+        this.getComments();
+      });
+    },
+
+    getComments() {
+      this.comments = [];
+      api.get('comments/' + this.id).then(response => {
+          response.data.forEach(element => {
+            this.comments.push(element);
+          });
+      });
+    },
+
     zoomUpdate(zoom) {
       this.currentZoom = zoom;
     },
+
     centerUpdate(center) {
       this.currentCenter = center;
     },
+
     showLongText() {
       this.showParagraph = !this.showParagraph;
     },
+
     innerClick() {
       alert("Click!");
     }
@@ -181,11 +214,7 @@ export default {
           element.date = moment(element.date).format('L à LT');
         });
 
-        api.get('comments/' + this.id).then(response => {
-          response.data.forEach(element => {
-            this.comments.push(element);
-          });
-        });
+        this.getComments();
     });
   }
 }
