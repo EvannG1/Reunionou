@@ -10,8 +10,9 @@ class Login extends StatefulWidget {
   static const routeIndex = 1;
 
   final Auth userAuth;
+  final Function onAuthUpdateCallback;
 
-  const Login({ Auth this.userAuth });
+  const Login({ Key key, this.userAuth, this.onAuthUpdateCallback  }) : super(key: key);
 
   @override
   _LoginState createState() => new _LoginState();
@@ -21,9 +22,15 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   String email;
   String password;
+  var _userAuth;
   GlobalKey _scaffoldKey = GlobalKey();
 
   @override
+  void initState() {
+    super.initState();
+    _userAuth = this.widget.userAuth;
+  }
+
   Widget build(BuildContext context) {
     return new Scaffold(
       key: _scaffoldKey,
@@ -88,18 +95,19 @@ class _LoginState extends State<Login> {
                     final FormState form = _formKey.currentState;
                     if(form.validate()){
                       form.save();
-                      print(email);
-                      print(password);
-                      print('/////////////');
-                      this.widget.userAuth.seConnecter(email, password, context);
-                      /*
-                      Navigator.push(
-                        context,
-                        PageTransition(
-                          type: PageTransitionType.fade,
-                          child: Home(this.widget.userAuth),
-                        ),
-                      );*/
+                      () async {
+                        _userAuth = await _userAuth.seConnecter(email, password, context);
+                        if(_userAuth.connected){
+                          //widget.onAuthUpdateCallback(_userAuth);
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.fade,
+                              child: Home(_userAuth),
+                            ),
+                          );
+                        }
+                      }();
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -111,7 +119,7 @@ class _LoginState extends State<Login> {
                   child: Text('Log In', style: TextStyle(color: Colors.white)),
                 ),
               ),
-              FlatButton(
+              TextButton(
                 child: Text(
                   'Forgot password?',
                   style: TextStyle(
@@ -122,7 +130,7 @@ class _LoginState extends State<Login> {
                   print("mot de passe oublié");
                 },
               ),
-              FlatButton(
+              TextButton(
                 child: Text(
                   'Create New Account',
                   style: TextStyle(

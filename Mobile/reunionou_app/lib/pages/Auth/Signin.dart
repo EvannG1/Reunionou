@@ -6,6 +6,28 @@ class Signin extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
-
+    return Scaffold(
+        backgroundColor: Colors.red,
+        appBar: AppBar(
+            backgroundColor: Colors.white,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage('assets/images/logo_762x341.png'),
+                  width: 120,
+                )
+              ],
+            )),
+        body: Center(
+          child:
+          Text(
+            'Signin',
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+        )
+    );
   }
 }

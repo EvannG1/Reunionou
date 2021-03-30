@@ -11,10 +11,14 @@ class GetController {
         $events = Event::where('user_id', $_SESSION['id'])->with('location', 'author')->get();
         $events->makeHidden(['location_id', 'user_id']);
 
-        $shared = Shared::where('user_id', $_SESSION['id'])->with('event')->get();
-        $shared->makeHidden(['id', 'event_id', 'user_id']);
+        $shareds = Shared::where('user_id', $_SESSION['id'])->with('event.location', 'event.author')->get();
+        $shareds->makeHidden(['location_id', 'user_id', 'id', 'event_id']);
 
-        return json_encode(['owned' => $events, 'shared' => $shared]);
+        for ($i = 0; $i < sizeof($shareds); $i++) {
+            $shareds[$i] = $shareds[$i]['event'];
+        }
+        
+        return json_encode(['owned' => $events, 'shared' => $shareds]);
     }
 
     public static function getEvent($id) {
