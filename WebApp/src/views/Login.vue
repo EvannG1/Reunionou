@@ -4,6 +4,9 @@
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-8">
+                    <div v-if="error" class="alert alert-danger" role="alert">
+                        <font-awesome-icon icon="exclamation-circle"></font-awesome-icon> {{ error }}
+                    </div>
                     <div class="card">
                         <div class="card-header"><font-awesome-icon icon="sign-in-alt"></font-awesome-icon> Page de connexion</div>
                         <div class="card-body">
@@ -47,6 +50,7 @@ export default {
   },
   data() {
       return {
+          error: false,
           email: 'john@local.dev',
           password: 'admin'
       }
@@ -57,11 +61,15 @@ export default {
              email: this.email,
              password: this.password 
           }).then(response => {
-              this.$store.commit('setFullname', response.data.fullname);
-              this.$store.commit('setEmail', response.data.email);
-              this.$store.commit('setToken', response.data.token);
-              this.$router.push('/');
-          })
+              if(response.data.post) {
+                this.$store.commit('setFullname', response.data.fullname);
+                this.$store.commit('setEmail', response.data.email);
+                this.$store.commit('setToken', response.data.token);
+                this.$router.push('/');
+              } else {
+                  this.error = response.data.message;
+              }
+          });
       }
   }
 }

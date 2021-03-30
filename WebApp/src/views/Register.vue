@@ -4,6 +4,9 @@
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-8">
+                    <div v-if="error" class="alert alert-danger" role="alert">
+                        <font-awesome-icon icon="exclamation-circle"></font-awesome-icon> {{ error }}
+                    </div>
                     <div class="card">
                         <div class="card-header"><font-awesome-icon icon="user-plus"></font-awesome-icon> Page d'inscription</div>
                         <div class="card-body">
@@ -54,6 +57,7 @@ export default {
   },
   data() {
       return {
+          error: false,
           fullname: '',
           email: '',
           password: ''
@@ -61,9 +65,18 @@ export default {
   },
   methods: {
       register() {
-          console.log(this.fullname)
-          console.log(this.email)
-          console.log(this.password)
+          api.post('signup', {
+             fullname: this.fullname,
+             email: this.email,
+             password: this.password 
+          }).then(response => {
+              if(response.data.post) {
+                alert('Votre compte a bien été créé !');
+                this.$router.push('/login');
+              } else {
+                  this.error = response.data.message;
+              }
+          });
       }
   }
 }

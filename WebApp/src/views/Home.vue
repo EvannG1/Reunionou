@@ -9,7 +9,7 @@
         <a href="#">Mes évènements partagés</a>
       </div>
 
-      <div class="row">
+      <div class="row mb-5">
         <div class="col-12 col-sm-7">
           <div class="card mb-3">
             <l-map v-if="showMap" :zoom="zoom" :center="center" :options="mapOptions" style="height: 350px; width: 100%;"
@@ -27,10 +27,33 @@
               <p class="card-text"><small class="text-muted"><font-awesome-icon icon="calendar-alt"></font-awesome-icon> Prévu le {{ date }} par {{ author }}</small></p>
             </div>
           </div>
+
+
+          <div class="btn-group mb-3 w-100" role="group">
+            <button type="button" class="btn btn-primary">Je serais présent</button>
+            <button type="button" class="btn btn-danger">Je serais absent</button>
+          </div>
+
+          <div class="card">
+              <div class="card-body text-center">
+                  <h4 class="card-title">Liste des commentaires</h4>
+                  <hr>
+              </div>
+              <div class="comment-widgets">
+                  <div v-for="(comment, index) in comments" class="d-flex flex-row mb-3">
+                      <div class="p-2"><font-awesome-icon icon="user" style="width: 50px;"></font-awesome-icon></div>
+                      <div class="w-100">
+                          <h6>{{ comment.user.fullname }}</h6> <span class="m-b-15 d-block">{{ comment.content }}</span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+    
+          
         </div>
         <div class="col-12 col-sm-5">
           <div v-for="(event, index) in events" class="list-group">
-            <a @click="selectEvent(event.title, event.description, event.date, event.author, event.location, index)" href="#" class="list-group-item list-group-item-action">
+            <a @click="selectEvent(event.id, event.title, event.description, event.date, event.author, event.location, index)" href="#" class="list-group-item list-group-item-action">
               <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{ event.title }}</h5>
                 <small><font-awesome-icon icon="map-marker-alt"></font-awesome-icon> {{ event.location.name }}</small>
@@ -81,12 +104,16 @@ export default {
   data() {
     return {
       events: [],
+      comments: [],
       index: false,
+      id: false,
       title: false,
       description: false,
       date: false,
       author: false,
       location: false,
+      comment_content: false,
+      comment_user: false,
 
       zoom: 15,
       center: latLng(location.x, location.y),
@@ -102,16 +129,24 @@ export default {
     }
   },
   methods: {
-    selectEvent(title, description, date, author, location, index) {
+    selectEvent(id, title, description, date, author, location, index) {
       this.index = index;
+      this.id = id;
       this.title = title;
       this.description = description;
       this.date = date;
       this.author = author.fullname;
       this.location = location;
-      this.center = latLng(location.x, location.y)
-      this.currentCenter = latLng(location.x, location.y)
-      this.withTooltip = latLng(location.x, location.y)
+      this.center = latLng(location.x, location.y);
+      this.currentCenter = latLng(location.x, location.y);
+      this.withTooltip = latLng(location.x, location.y);
+
+      api.get('comments/' + this.id).then(response => {
+          this.comments = [];
+          response.data.forEach(element => {
+            this.comments.push(element);
+          });
+      });
     },
     zoomUpdate(zoom) {
       this.currentZoom = zoom;
@@ -128,6 +163,7 @@ export default {
   },
   mounted() {
     api.get('events').then(response => {
+        this.id = response.data.owned[0].id;
         this.title = response.data.owned[0].title;
         this.description = response.data.owned[0].description;
         this.date = moment(response.data.owned[0].date).format('L à LT');
@@ -143,6 +179,12 @@ export default {
 
         this.events.forEach(element => {
           element.date = moment(element.date).format('L à LT');
+        });
+
+        api.get('comments/' + this.id).then(response => {
+          response.data.forEach(element => {
+            this.comments.push(element);
+          });
         });
     });
   }

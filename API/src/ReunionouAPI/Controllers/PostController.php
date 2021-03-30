@@ -40,6 +40,7 @@ class PostController {
         if(!is_null($user)) {
             if(AuthController::verifyPassword($password, $user->password)) {
                 $response = [
+                    'post'      =>  true,
                     'fullname'  =>  $user->fullname,
                     'email'     =>  $user->email,
                     'token'     =>  $user->token
