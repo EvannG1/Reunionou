@@ -111,4 +111,36 @@ class PostController {
         }
     }
 
+    public static function postComment($id, $content, $event_id){
+        if(empty($content) || empty($event_id)) {
+            return self::error(self::$message['empty']);
+        } else {
+            Comment::insert(['content' => $content, 'user_id' => $_SESSION['id'], 'event_id' => $event_id]);
+
+            $response = [
+                'post'      => true,
+                'user_id'   => $_SESSION['id'],
+                'event_id'  =>  $event_id
+            ];
+
+            return json_encode($response);
+        }
+    }
+
+    public static function editProfile($fullname, $email, $password) {
+        if(empty($fullname) || empty($email) || empty($password)) {
+            return self::error(self::$message['empty']);
+        } else {
+            $exist = User::where('email', $email)->where('id', '!=', $_SESSION['id'])->count();
+            if($exist) {
+                return self::error(self::$message['email_taken']);
+            } else {
+                $password = AuthController::hashPassword($password);
+                User::where('id', $_SESSION['id'])->update(['fullname' => $fullname, 'email' => $email, 'password' => $password]);
+
+                return self::success();
+            }
+        }
+    }
+
 }

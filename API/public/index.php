@@ -68,6 +68,16 @@ $app->group('', function() {
         $response->getBody()->write(GetAPI::getComment($id));
         return $response;
     });
+
+    // Route (POST) : permet de poster un commentaire sur un article depuis son ID
+    $this->post('/comment/{id}', function(Request $req, Response $resp, $args) {
+        $id = $args['id'];
+        $content = $req->getParam('content');
+        $event_id = $req->getParam('event_id');
+        $response = $resp->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(PostAPI::postComment($id, $content, $event_id));
+        return $response;
+    });
     
     // Route (GET) : récupère la liste de tous les partages
     $this->get('/shared', function(Request $req, Response $resp) {
@@ -118,6 +128,16 @@ $app->group('', function() {
         $id = $args['id'];
         $response = $resp->withHeader('Content-Type', 'application/json');
         $response->getBody()->write(PostAPI::deleteEvent($id));
+        return $response;
+    });
+
+    // Route (POST) : permet de modifier son profil
+    $this->post('/edit/profile', function(Request $req, Response $resp) {
+        $fullname = $req->getParam('fullname');
+        $email = $req->getParam('email');
+        $password = $req->getParam('password');
+        $response = $resp->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(PostAPI::editProfile($fullname, $email, $password));
         return $response;
     });
 })->add(new TokenMiddleware($c));
