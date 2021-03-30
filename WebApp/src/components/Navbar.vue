@@ -19,7 +19,10 @@
                     </ul>
                     <ul v-if="isLogged" class="navbar-nav">
                         <li class="nav-item">
-                            <a @click="logout()" href="#" class="nav-link">Déconnexion</a>
+                            <router-link to="/edit/profile" class="nav-link"><font-awesome-icon icon="user-edit"></font-awesome-icon> Profil</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <a @click="logout()" href="#" class="nav-link"><font-awesome-icon icon="sign-out-alt"></font-awesome-icon> Déconnexion</a>
                         </li>
                     </ul>
                     <ul v-else class="navbar-nav">
