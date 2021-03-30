@@ -152,7 +152,7 @@ export default {
     },
 
     postAvailable(id) {
-      content = "Je serais présent.";
+      let content = "Je serais présent.";
       api.post('comment/' + id, {
         content: content,
         event_id: id
@@ -162,7 +162,7 @@ export default {
     },
 
     postAbsent(id) {
-      content = "Je serais absent.";
+      let content = "Je serais absent.";
       api.post('comment/' + id, {
         content: content,
         event_id: id
