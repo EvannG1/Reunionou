@@ -2,3 +2,4 @@ API/src/vendor
 Backoffice/src/vendor
 API/src/composer.lock
 Backoffice/src/composer.lock
+WebApp/package.json

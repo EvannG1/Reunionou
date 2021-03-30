@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import EditProfile from '../views/EditProfile.vue'
+import CreateEvent from '../views/CreateEvent.vue'
 
 Vue.use(VueRouter)
 
@@ -36,6 +37,11 @@ const routes = [
     path: '/edit/profile',
     name: 'EditProfile',
     component: EditProfile
+  },
+  {
+    path: '/create/event',
+    name: 'CreateEvent',
+    component: CreateEvent
   }
 ]
 

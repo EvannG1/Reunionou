@@ -62,12 +62,13 @@
               <small><font-awesome-icon icon="calendar-alt"></font-awesome-icon> Prévu le {{ event.date }}</small>
             </a>
           </div>
+          <router-link to="/create/event">
           <div class="d-grid gap-2">
             <button class="btn btn-primary" type="button">Créer un nouvel évènement</button>
           </div>
+          </router-link>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -91,6 +92,7 @@ Icon.Default.mergeOptions({
   iconUrl: require('leaflet/dist/images/marker-icon.png'),
   shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
+
 
 export default {
   components: {
