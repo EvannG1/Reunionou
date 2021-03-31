@@ -53,14 +53,6 @@ $app->group('', function() {
         $response->getBody()->write(GetAPI::getEvent($id));
         return $response;
     });
-
-    // Route (GET) : récupère l'évènement appartenant au token
-    $this->get('/public_event/{token}', function(Request $req, Response $resp, $args) {
-        $token = $args['token'];
-        $response = $resp->withHeader('Content-Type', 'application/json');
-        $response->getBody()->write(GetAPI::getPublicEvent($token));
-        return $response;
-    });
     
     // Route (GET) : récupère la liste de tous les commentaires
     $this->get('/comments', function(Request $req, Response $resp) {
@@ -185,6 +177,22 @@ $app->post('/signup', function(Request $req, Response $resp) {
 
     $response = $resp->withHeader('Content-Type', 'application/json');
     $response->getBody()->write(PostAPI::signup($fullname, $email, $password));
+    return $response;
+});
+
+// Route (GET) : récupère l'évènement appartenant au token
+$app->get('/public_event/{token}', function(Request $req, Response $resp, $args) {
+    $token = $args['token'];
+    $response = $resp->withHeader('Content-Type', 'application/json');
+    $response->getBody()->write(GetAPI::getPublicEvent($token));
+    return $response;
+});
+
+// Route (GET) : récupère la liste de tous les commentaires associées à un évènement depuis son token
+$app->get('/public_comments/{token}', function(Request $req, Response $resp, $args) {
+    $token = $args['token'];
+    $response = $resp->withHeader('Content-Type', 'application/json');
+    $response->getBody()->write(GetAPI::getPublicComments($token));
     return $response;
 });
 

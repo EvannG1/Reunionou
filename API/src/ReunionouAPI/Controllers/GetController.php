@@ -63,6 +63,13 @@ class GetController {
         }        
     }
 
+    public static function getPublicComments($token) {
+        $event_id = Event::where('token', $token)->first()->id;
+        $comments = Comment::where('event_id', $event_id)->orderBy('id', 'DESC')->with('user')->get();
+        $comments->makeHidden(['user_id']);
+        return json_encode($comments);
+    }
+
     public static function getShared() {
         $shared = Shared::select()->with('event', 'user')->get();
         $shared->makeHidden(['event_id', 'user_id']);

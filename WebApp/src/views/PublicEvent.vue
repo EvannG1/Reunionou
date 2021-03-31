@@ -102,7 +102,7 @@ export default {
   methods: {
     getComments() {
       this.comments = [];
-      api.get('comments/' + this.id).then(response => {
+      api.get('public_comments/' + this.$route.params.token).then(response => {
           response.data.forEach(element => {
             this.comments.push(element);
           });
