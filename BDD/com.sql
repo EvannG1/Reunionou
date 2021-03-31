@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : mer. 24 mars 2021 à 09:35
+-- Généré le : mer. 31 mars 2021 à 15:09
 -- Version du serveur :  10.5.9-MariaDB-1:10.5.9+maria~focal
 -- Version de PHP : 7.4.16
 
@@ -58,9 +58,8 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`id`, `content`, `user_id`, `event_id`) VALUES
-(1, 'Cela va être super bien ! :)', 1, 1),
-(2, 'Cela va être super naze ! :(', 2, 2),
-(3, 'On verra bien !', 1, 1);
+(36, 'Je serais présent.', 9, 9),
+(37, 'Superbe !', 1, 9);
 
 -- --------------------------------------------------------
 
@@ -83,9 +82,8 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`id`, `title`, `description`, `date`, `location_id`, `user_id`, `token`) VALUES
-(1, 'Anniversaire de tata', 'Superbe anniversaire de tata !', '2021-03-24 15:00:00', 1, 1, 'sss'),
-(2, 'Anniversaire de tonton', 'Superbe anniversaire de tonton !', '2021-03-24 15:00:00', 2, 3, 'sss'),
-(3, 'Anniversaire de mamy', 'Superbe anniversaire de mamy !', '2021-03-24 15:00:00', 2, 3, 'sss');
+(9, 'Un superbe évènement', 'Voici la description d\'un superbe évènement', '2021-03-24 12:00:00', 16, 1, '3c00605a20a0ec740c79e98139ee62bb'),
+(12, 'Ceci est un évènement carritatif', 'Evènement à la Gare de Nancy', '2021-03-26 17:35:00', 19, 1, 'ca72f4533b533be4473fd4fdd88f0af9');
 
 -- --------------------------------------------------------
 
@@ -105,8 +103,13 @@ CREATE TABLE `locations` (
 --
 
 INSERT INTO `locations` (`id`, `name`, `x`, `y`) VALUES
-(1, 'Tour Eiffel', 48.8584, 2.29229),
-(2, 'Pas la Tour Eiffel', 48.8584, 2.29229);
+(1, 'Tour Eiffellllllll', 48.8581, 2.29464),
+(13, 'Tokyo SkyeTree', 11.1111, 9.78965),
+(15, 'Arc de Triomphe', 8.8888, 1.78966),
+(16, 'Port de Jersey', 49.1802, -2.11049),
+(17, 'Chez moi', 48.6861, 6.15711),
+(18, 'ddd', 48.688, 6.16277),
+(19, 'Gare de Nancy', 48.6901, 6.17438);
 
 -- --------------------------------------------------------
 
@@ -125,11 +128,7 @@ CREATE TABLE `shared_events` (
 --
 
 INSERT INTO `shared_events` (`id`, `event_id`, `user_id`) VALUES
-(1, 2, 1),
-(2, 1, 3),
-(3, 2, 3),
-(4, 1, 2),
-(5, 3, 2);
+(10, 9, 9);
 
 -- --------------------------------------------------------
 
@@ -150,9 +149,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `fullname`, `email`, `password`, `token`) VALUES
-(1, 'John Doe', 'john@local.dev', '$2y$10$7AmFGwyDNlTxcu4B5ezbwecw.yarZWxdAGZL6QvbYE2O5ZINudBh2', '1afc5824fa4a325d394d1425ecce0578'),
-(2, 'Mr. Propre', 'propre@local.dev', '$2y$10$7AmFGwyDNlTxcu4B5ezbwecw.yarZWxdAGZL6QvbYE2O5ZINudBh2', 'c903a1e7cf45e4f39de69d5f1b66b575'),
-(3, 'Cetelem', 'cetelem@local.dev', '$2y$10$7AmFGwyDNlTxcu4B5ezbwecw.yarZWxdAGZL6QvbYE2O5ZINudBh2', '822de381ffd398a9485f997931b67fa9');
+(1, 'John Doe', 'john@local.dev', '$2y$10$VIn6rqUKyoKCOxyjQPHvdewIR6yWyKiN6te/9zRI7UQK76zymDOZ.', '1afc5824fa4a325d394d1425ecce0578'),
+(9, 'Evann Gehin', 'evann.gehin@outlook.fr', '$2y$10$0pOY5qixOFBjmPe9ckiLaeO8xhi2yYFtKmHSpj03G8jpYxEc68qyO', 'cad58889697a75fb8f1821d4a672d885');
 
 --
 -- Index pour les tables déchargées
@@ -208,31 +206,31 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT pour la table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT pour la table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT pour la table `locations`
 --
 ALTER TABLE `locations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT pour la table `shared_events`
 --
 ALTER TABLE `shared_events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -14,7 +14,7 @@
         </router-link>
       </div>
 
-      <div class="row mb-5">
+      <div v-if="events.length > 0" class="row mb-5">
         <div class="col-12 col-sm-7">
           <div class="card mb-3">
             <l-map v-if="showMap" :zoom="zoom" :center="center" :options="mapOptions" style="height: 350px; width: 100%;"
@@ -76,6 +76,9 @@
             </a>
           </div>
         </div>
+      </div>
+      <div v-else class="row mb-5">
+        <h3 class="text-center">Vous n'avez aucun évènement partagés !</h3>
       </div>
     </div>
   </div>
