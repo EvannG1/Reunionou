@@ -9,6 +9,7 @@ use App\Models\Comment;
 use App\Models\User;
 use App\Models\Shared;
 use App\Models\Event;
+use App\Models\Location;
 
 class PagesPostController extends Controller {
 
@@ -119,6 +120,43 @@ class PagesPostController extends Controller {
             }
         } 
 
+    }
+
+    //Suppression d'un event
+    public function eventDelete(Request $request, Response $response)
+    {
+      //Récupère l'id de l'event
+        $id = $request->getParam('id');
+        $exist = Event::where('id', '=', $id)->count();
+
+        //Vérifie si l'event existe
+        if(!$exist)
+        {
+            return "L'evenement que vous essayez de supprimer n'existe pas !";
+        }
+        else
+        {
+            //Récupère les attributs de l'évènement que l'on souhaite supprimer
+            $event = Event::where('id', '=', $id)->get();
+
+            //Supprime l'évènement
+            Event::where('id', $id)->delete();
+
+            //Supprime les commentaires de l'évènement
+            Comment::where('event_id', $id)->delete();
+
+            //Supprime les partages
+            Shared::where('event_id', $id)->delete();
+
+            //Obligé de faire une boucle sinon cela ne marche pas ¯\_(ツ)_/¯
+            foreach($event as $e)
+            {
+                //Supprime la localisation
+                Location::where('id', $e->location_id)->delete();
+            }
+
+            return "success";
+        }
     }
 
 }
