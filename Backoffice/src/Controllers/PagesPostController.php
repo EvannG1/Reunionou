@@ -86,6 +86,7 @@ class PagesPostController extends Controller {
             Shared::where('user_id', $id)->delete();
             foreach($events as $event) {
                 Comment::where('event_id', $event->id)->delete();
+                Shared::where('event_id', $event->id)->delete();
             }
             return "success";
         }
