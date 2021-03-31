@@ -8,7 +8,7 @@
                         <font-awesome-icon icon="exclamation-circle"></font-awesome-icon> {{ error }}
                     </div>
                     <div class="card">
-                        <div class="card-header"><font-awesome-icon icon="plus"></font-awesome-icon> Page de création d'un évènement</div>
+                        <div class="card-header"><font-awesome-icon icon="plus"></font-awesome-icon> Page de modification d'un évènement</div>
                         <div class="card-body">
                             <form @submit.prevent="editEvent()">
                                 <div class="mb-3">
@@ -48,7 +48,7 @@
                                 </l-map>
 
                                 <div class="d-grid gap-2 mt-3">
-                                    <button @click="editEvent()" class="btn btn-primary" type="button">Créer l'évènement</button>
+                                    <button @click="editEvent()" class="btn btn-primary" type="button">Modifier l'évènement</button>
                                 </div>
                             </form>
                         </div>
