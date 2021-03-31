@@ -235,14 +235,11 @@ export default {
 
     showLongText() {
       this.showParagraph = !this.showParagraph;
-    },
-
-    innerClick() {
-      alert("Click!");
     }
   },
   mounted() {
     api.get('events').then(response => {
+      if (response.data.shared.length > 0) {
         this.id = response.data.shared[0].id;
         this.title = response.data.shared[0].title;
         this.description = response.data.shared[0].description;
@@ -262,6 +259,7 @@ export default {
         });
 
         this.getComments();
+      }
     });
   }
 }

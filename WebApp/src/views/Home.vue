@@ -96,9 +96,11 @@
       </div>
       <div v-else class="row mb-5">
         <h3 class="text-center">Vous n'avez aucun évènement !</h3>
-        <div class="d-grid gap-2 mt-3">
+        <router-link to="/create/event">
+          <div class="d-grid gap-2">
             <button class="btn btn-primary" type="button">Créer un nouvel évènement</button>
           </div>
+        </router-link>
       </div>
     </div>
   </div>
@@ -263,14 +265,11 @@ export default {
 
     showLongText() {
       this.showParagraph = !this.showParagraph;
-    },
-
-    innerClick() {
-      alert("Click!");
     }
   },
   mounted() {
     api.get('events').then(response => {
+      if (response.data.owned.length > 0) {
         this.id = response.data.owned[0].id;
         this.title = response.data.owned[0].title;
         this.description = response.data.owned[0].description;
@@ -290,6 +289,7 @@ export default {
         });
 
         this.getComments();
+      }
     });
   }
 }
