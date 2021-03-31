@@ -54,7 +54,7 @@ $app->group('', function() {
         return $response;
     });
 
-    // Route (GET) : récupère la liste de tous les évènements
+    // Route (GET) : récupère l'évènement appartenant au token
     $this->get('/public_event/{token}', function(Request $req, Response $resp, $args) {
         $token = $args['token'];
         $response = $resp->withHeader('Content-Type', 'application/json');
