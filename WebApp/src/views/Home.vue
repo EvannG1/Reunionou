@@ -24,7 +24,11 @@
             <div class="card-body">
               <h5 class="card-title">{{ title }}</h5>
               <p class="card-text">{{ description }}</p>
-              <p class="card-text"><small class="text-muted"><font-awesome-icon icon="calendar-alt"></font-awesome-icon> Prévu le {{ date }} par {{ author }}</small></p>
+              <p class="card-text button-display"><small class="text-muted"><font-awesome-icon icon="calendar-alt"></font-awesome-icon> Prévu le {{ date }} par {{ author }}</small></p>
+              <button type="button" class="btn btn-danger deleteBtn">Supprimer</button>
+              <router-link :to="{ name: 'EditEvent', params: { id: id} }">
+                <button type="button" class="btn btn-warning editBtn">Modifier</button>
+              </router-link>
             </div>
           </div>
 
@@ -82,6 +86,20 @@
 </template>
 
 <style lang="scss">
+.button-display {
+  display: inline;
+}
+
+.deleteBtn {
+  width: 20%;
+  float: right; 
+}
+
+.editBtn {
+  width: 20%;
+  float: right;
+  margin-right: 1em;
+}
 </style>
 
 <script>

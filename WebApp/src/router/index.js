@@ -6,6 +6,7 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import EditProfile from '../views/EditProfile.vue'
 import CreateEvent from '../views/CreateEvent.vue'
+import EditEvent from '../views/EditEvent.vue'
 
 Vue.use(VueRouter)
 
@@ -42,7 +43,12 @@ const routes = [
     path: '/create/event',
     name: 'CreateEvent',
     component: CreateEvent
-  }
+  },
+  {
+    path: '/edit/event/:id',
+    name: 'EditEvent',
+    component: EditEvent
+  },
 ]
 
 const router = new VueRouter({
