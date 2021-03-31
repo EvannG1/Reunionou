@@ -60,6 +60,12 @@ $app->group('', function() {
     // Route : Modification d'un utilisateur (POST)
     $this->post('/user/update', PagesPostController::class . ':userUpdate')->setName('userUpdate');
 
+    // Route : Page de gestion des events (GET)
+    $this->get('/events', PagesGetController::class . ':events')->setName('events');
+
+    // Route : Suppression d'un event (POST)
+    $this->post('/event/delete', PagesPostController::class . ':eventDelete')->setName('eventDelete');
+
 
 })->add(new AuthMiddleware($container));
 
