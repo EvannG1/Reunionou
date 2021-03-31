@@ -10,6 +10,9 @@
     <div class="col-4 box">
         <h1>Utilisateurs</h1>
         <hr>
+        <a href="{{ path_for('createUser') }}" class="btn btn-outline-success btn-sm">
+            Nouvel utilisateur
+        </a>
         <a href="{{ path_for('users') }}" class="btn btn-outline-warning btn-sm">
             Gestion des utilisateurs
         </a>
@@ -18,5 +21,12 @@
         </a>
     </div>
 
+    </div><div class="col-4 box">
+        <h1>Evenements</h1>
+        <hr>
+        <a href="{{ path_for('events') }}" class="btn btn-outline-warning btn-sm">
+            Gestion des events
+        </a>
+    </div>
 </div>
 {% endblock %}
