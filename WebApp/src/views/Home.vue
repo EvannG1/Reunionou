@@ -64,8 +64,11 @@
               <div class="comment-widgets">
                   <div :key="index" v-for="(comment, index) in comments" class="d-flex flex-row mb-3">
                       <div class="p-2"><font-awesome-icon icon="user" style="width: 50px;"></font-awesome-icon></div>
-                      <div class="w-100">
+                      <div v-if="!checkComment(comment.content)" class="w-100">
                           <h6>{{ comment.user.fullname }}</h6> <span class="m-b-15 d-block">{{ comment.content }}</span>
+                      </div>
+                      <div v-else class="w-100">
+                          <h6>{{ comment.user.fullname }}</h6> <img :src="comment.content" class="m-b-15 d-block" style="width: 25%;">
                       </div>
                   </div>
               </div>
@@ -233,6 +236,14 @@ export default {
         api.post('delete/event/' + id).then(response => {
           document.location.reload();
         });
+      }
+    },
+
+    checkComment(content) {
+      if(content.includes('http')) {
+        return true;
+      } else {
+        return false;
       }
     },
 
