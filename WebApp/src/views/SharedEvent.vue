@@ -8,7 +8,7 @@
                         <font-awesome-icon icon="exclamation-circle"></font-awesome-icon> {{ error }}
                     </div>
                     <div class="card">
-                        <div class="card-header"><font-awesome-icon icon="plus"></font-awesome-icon> Page de partage d'un évènement</div>
+                        <div class="card-header"><font-awesome-icon icon="share-square"></font-awesome-icon> Page de partage d'un évènement : {{ title }}</div>
                         <div class="card-body">
                             <form @submit.prevent="shareEvent()">
                                 <table class="table mb-4">
@@ -29,8 +29,10 @@
                                     </tbody>
                                 </table>
                                 <div class="mb-3">
-                                    <label for="url" class="form-label">Lien de partage publique :</label>
-                                    <input v-model="url" type="text" class="form-control" id="url" disabled>
+                                    <div class="input-group mb-3">
+                                        <input v-model="url" type="text" class="form-control" disabled>
+                                        <button v-clipboard:copy="this.url" v-clipboard:success="onCopy" class="btn btn-dark" type="button"><font-awesome-icon icon="copy"></font-awesome-icon></button>
+                                    </div>
                                 </div>
                                 <div class="d-grid gap-2 mt-3">
                                     <button @click="shareEvent()" class="btn btn-primary" type="button">Partager l'évènement</button>
@@ -61,6 +63,7 @@ export default {
       return {
         error: false,
         success: false,
+        title: '',
         tempUser: [],
         users: [],
         url: ''
@@ -90,6 +93,10 @@ export default {
           }
       },
 
+      onCopy() {
+          alert("Le lien a été copié !");
+      },
+
       getRootURL() {
           return window.location.origin;
       }
@@ -99,7 +106,9 @@ export default {
       api.get('event/' + this.$route.params.id).then(response => {
           let data = response.data[0];
           let rootURL = this.getRootURL();
+          this.title = data.title;
           this.url = rootURL + '/event/' + data.token;
+          console.log(data);
       });
 
       api.get('users').then(response => {

@@ -35,6 +35,11 @@ class GetController {
         }
     }
 
+    public static function getPublicEvent($token) {
+        $event = Event::where('token', $token)->with('location', 'author')->first();
+        return json_encode($event);
+    }
+
     public static function getComments() {
         $comments = Comment::where('user_id', $_SESSION['id'])->with('user')->get();
         $comments->makeHidden(['user_id']);

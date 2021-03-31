@@ -7,6 +7,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import VueClipboard from 'vue-clipboard2';
+
+Vue.use(VueClipboard)
 
 library.add(fas);
 Vue.component('font-awesome-icon', FontAwesomeIcon)

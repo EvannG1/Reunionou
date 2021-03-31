@@ -9,6 +9,7 @@ import CreateEvent from '../views/CreateEvent.vue'
 import EditEvent from '../views/EditEvent.vue'
 import SharedEvents from '../views/SharedEvents.vue'
 import SharedEvent from '../views/SharedEvent.vue'
+import PublicEvent from '../views/PublicEvent.vue'
 
 Vue.use(VueRouter)
 
@@ -60,7 +61,12 @@ const routes = [
     path: '/shared/:id',
     name: 'SharedEvent',
     component: SharedEvent
-  }
+  },
+  {
+    path: '/event/:token',
+    name: 'PublicEvent',
+    component: PublicEvent
+  },
 ]
 
 const router = new VueRouter({

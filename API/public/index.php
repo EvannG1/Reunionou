@@ -53,6 +53,14 @@ $app->group('', function() {
         $response->getBody()->write(GetAPI::getEvent($id));
         return $response;
     });
+
+    // Route (GET) : récupère la liste de tous les évènements
+    $this->get('/public_event/{token}', function(Request $req, Response $resp, $args) {
+        $token = $args['token'];
+        $response = $resp->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(GetAPI::getPublicEvent($token));
+        return $response;
+    });
     
     // Route (GET) : récupère la liste de tous les commentaires
     $this->get('/comments', function(Request $req, Response $resp) {
