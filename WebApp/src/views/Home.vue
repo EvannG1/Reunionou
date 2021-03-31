@@ -22,7 +22,7 @@
               </l-marker>
             </l-map>
             <div class="card-body">
-              <h5 class="card-title">{{ title }}</h5>
+              <h5 class="card-title">{{ title }} <font-awesome-icon icon="share-alt-square" style="float: right;"></font-awesome-icon></h5>
               <p class="card-text">{{ description }}</p>
               <p class="card-text button-display"><small class="text-muted"><font-awesome-icon icon="calendar-alt"></font-awesome-icon> Prévu le {{ date }} par {{ author }}</small></p>
               <button @click="deleteEvent(id)" type="button" class="btn btn-danger deleteBtn">Supprimer</button>
