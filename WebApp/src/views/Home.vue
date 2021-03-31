@@ -28,7 +28,15 @@
             </div>
           </div>
 
-
+          <div class="row mb-3">
+              <div class="col-10">
+                <input v-model="input_comment" type="text" class="form-control" placeholder="Entrez votre commentaire...">
+              </div>
+              <div class="col-2">
+                <button @click="postComment(id)" type="button" class="btn btn-primary">Envoyer</button>
+              </div>
+          </div>
+          
           <div class="btn-group mb-3 w-100" role="group">
             <button @click="postAvailable(id)" type="button" class="btn btn-primary">Je serais présent</button>
             <button @click="postAbsent(id)" type="button" class="btn btn-danger">Je serais absent</button>
@@ -40,7 +48,7 @@
                   <hr>
               </div>
               <div class="comment-widgets">
-                  <div v-for="(comment, index) in comments" class="d-flex flex-row mb-3">
+                  <div :key="index" v-for="(comment, index) in comments" class="d-flex flex-row mb-3">
                       <div class="p-2"><font-awesome-icon icon="user" style="width: 50px;"></font-awesome-icon></div>
                       <div class="w-100">
                           <h6>{{ comment.user.fullname }}</h6> <span class="m-b-15 d-block">{{ comment.content }}</span>
@@ -52,7 +60,7 @@
           
         </div>
         <div class="col-12 col-sm-5">
-          <div v-for="(event, index) in events" class="list-group">
+          <div :key="index" v-for="(event, index) in events" class="list-group">
             <a @click="selectEvent(event.id, event.title, event.description, event.date, event.author, event.location, index)" href="#" class="list-group-item list-group-item-action">
               <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{ event.title }}</h5>
@@ -116,6 +124,7 @@ export default {
       location: false,
       comment_content: false,
       comment_user: false,
+      input_comment: '',
 
       zoom: 15,
       center: latLng(location.x, location.y),
@@ -167,6 +176,17 @@ export default {
         content: content,
         event_id: id
       }).then(response => {
+        this.getComments();
+      });
+    },
+
+    postComment(id) {
+      let content = this.input_comment;
+      api.post('comment/' + id, {
+        content: content,
+        event_id: id
+      }).then(response => {
+        this.input_comment = '';
         this.getComments();
       });
     },
