@@ -94,6 +94,16 @@ $app->group('', function() {
         return $response;
     });
 
+    // Route (POST) : permet créer un partage
+    $this->post('/shared', function(Request $req, Response $resp) {
+        $event_id = $req->getParam('event_id');
+        $user_id = $req->getParam('user_id');
+
+        $response = $resp->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(PostAPI::postShared($event_id, $user_id));
+        return $response;
+    });
+
     // Route (POST) : permet de créer un évènement
     $this->post('/create/event', function(Request $req, Response $resp) {
         $title = $req->getParam('title');
@@ -138,6 +148,13 @@ $app->group('', function() {
         $password = $req->getParam('password');
         $response = $resp->withHeader('Content-Type', 'application/json');
         $response->getBody()->write(PostAPI::editProfile($fullname, $email, $password));
+        return $response;
+    });
+
+    // Route (GET) : récupère la liste de tous les utilisateurs
+    $this->get('/users', function(Request $req, Response $resp) {
+        $response = $resp->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(GetAPI::getUsers());
         return $response;
     });
 })->add(new TokenMiddleware($c));

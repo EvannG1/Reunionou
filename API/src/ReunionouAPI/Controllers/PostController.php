@@ -143,4 +143,14 @@ class PostController {
         }
     }
 
+    public static function postShared($event_id, $user_id) {
+        if(empty($event_id) || empty($user_id)) {
+            return self::error(self::$message['empty']);
+        } else {
+            Shared::insert(['event_id' => $event_id, 'user_id' => $user_id]);
+
+            return self::success();
+        }
+    }
+
 }

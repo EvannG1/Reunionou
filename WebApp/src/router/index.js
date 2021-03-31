@@ -7,6 +7,8 @@ import Register from '../views/Register.vue'
 import EditProfile from '../views/EditProfile.vue'
 import CreateEvent from '../views/CreateEvent.vue'
 import EditEvent from '../views/EditEvent.vue'
+import SharedEvents from '../views/SharedEvents.vue'
+import SharedEvent from '../views/SharedEvent.vue'
 
 Vue.use(VueRouter)
 
@@ -49,6 +51,16 @@ const routes = [
     name: 'EditEvent',
     component: EditEvent
   },
+  {
+    path: '/shareds',
+    name: 'SharedEvents',
+    component: SharedEvents
+  },
+  {
+    path: '/shared/:id',
+    name: 'SharedEvent',
+    component: SharedEvent
+  }
 ]
 
 const router = new VueRouter({

@@ -4,6 +4,7 @@ namespace ReunionouAPI\Controllers;
 use ReunionouAPI\Models\Event;
 use ReunionouAPI\Models\Comment;
 use ReunionouAPI\Models\Shared;
+use ReunionouAPI\Models\User;
 
 class GetController {
 
@@ -67,6 +68,12 @@ class GetController {
         $shared = Shared::where('event_id', $id)->with('user')->get();
         $shared->makeHidden(['user_id']);
         return json_encode($shared);
+    }
+
+    public static function getUsers() {
+        $users = User::select()->get();
+        $users->makeHidden(['password', 'token']);
+        return json_encode($users);
     }
 
 }

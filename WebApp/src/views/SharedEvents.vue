@@ -3,7 +3,7 @@
     <Navbar />
     <div class="container mt-5">
 
-      <h1 class="text-center">Mes évènements</h1>
+      <h1 class="text-center">Mes évènements partagés</h1>
       <div class="text-center mb-3">
         <router-link to="/">
             <a href="#">Mes évènements</a>
@@ -27,18 +27,9 @@
               </l-marker>
             </l-map>
             <div class="card-body">
-              <h5 class="card-title">
-                {{ title }}
-                <router-link :to="{ name: 'SharedEvent', params: { id: id} }">
-                  <font-awesome-icon icon="share-alt-square" style="float: right;"></font-awesome-icon>
-                </router-link>
-              </h5>
+              <h5 class="card-title">{{ title }}</h5>
               <p class="card-text">{{ description }}</p>
               <p class="card-text button-display"><small class="text-muted"><font-awesome-icon icon="calendar-alt"></font-awesome-icon> Prévu le {{ date }} par {{ author }}</small></p>
-              <button @click="deleteEvent(id)" type="button" class="btn btn-danger deleteBtn">Supprimer</button>
-              <router-link :to="{ name: 'EditEvent', params: { id: id} }">
-                <button type="button" class="btn btn-warning editBtn">Modifier</button>
-              </router-link>
             </div>
           </div>
 
@@ -84,11 +75,6 @@
               <small><font-awesome-icon icon="calendar-alt"></font-awesome-icon> Prévu le {{ event.date }}</small>
             </a>
           </div>
-          <router-link to="/create/event">
-          <div class="d-grid gap-2">
-            <button class="btn btn-primary" type="button">Créer un nouvel évènement</button>
-          </div>
-          </router-link>
         </div>
       </div>
     </div>
@@ -254,17 +240,17 @@ export default {
   },
   mounted() {
     api.get('events').then(response => {
-        this.id = response.data.owned[0].id;
-        this.title = response.data.owned[0].title;
-        this.description = response.data.owned[0].description;
-        this.date = moment(response.data.owned[0].date).format('L à LT');
-        this.author = response.data.owned[0].author.fullname;
-        this.location = response.data.owned[0].location;
-        this.center = latLng(response.data.owned[0].location.x, response.data.owned[0].location.y);
-        this.currentCenter = latLng(response.data.owned[0].location.x, response.data.owned[0].location.y);
-        this.withTooltip = latLng(response.data.owned[0].location.x, response.data.owned[0].location.y);
+        this.id = response.data.shared[0].id;
+        this.title = response.data.shared[0].title;
+        this.description = response.data.shared[0].description;
+        this.date = moment(response.data.shared[0].date).format('L à LT');
+        this.author = response.data.shared[0].author.fullname;
+        this.location = response.data.shared[0].location;
+        this.center = latLng(response.data.shared[0].location.x, response.data.shared[0].location.y);
+        this.currentCenter = latLng(response.data.shared[0].location.x, response.data.shared[0].location.y);
+        this.withTooltip = latLng(response.data.shared[0].location.x, response.data.shared[0].location.y);
 
-        response.data.owned.forEach(element => {
+        response.data.shared.forEach(element => {
           this.events.push(element);
         });
 

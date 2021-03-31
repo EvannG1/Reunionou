@@ -14,7 +14,7 @@
                             <router-link to="/" class="nav-link">Mes évènements</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/" class="nav-link">Évènements partagés</router-link>
+                            <router-link to="/shareds" class="nav-link">Évènements partagés</router-link>
                         </li>
                     </ul>
                     <ul v-if="isLogged" class="navbar-nav">

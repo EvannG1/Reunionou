@@ -13,7 +13,7 @@
                             <form @submit.prevent="editEvent()">
                                 <div class="mb-3">
                                     <label for="title" class="form-label">Intitulé de l'évènement :</label>
-                                    <input v-model="title" type="title" class="form-control" id="title">
+                                    <input v-model="title" type="text" class="form-control" id="title">
                                 </div>
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description :</label>
