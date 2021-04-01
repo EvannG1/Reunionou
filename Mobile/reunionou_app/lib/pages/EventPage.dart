@@ -172,6 +172,7 @@ class EventPage extends StatelessWidget{
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
+                                        
                                         Text(
                                           event.title,
                                           style: TextStyle(
@@ -179,6 +180,8 @@ class EventPage extends StatelessWidget{
                                               fontSize: 20
                                           ),
                                         ),
+                                        
+             
                                         Text(
                                           event.description,
                                           style: TextStyle(
@@ -186,6 +189,7 @@ class EventPage extends StatelessWidget{
                                             fontSize: 12,
                                           ),
                                         ),
+                                   
                                       ],
                                     ),
                                   ),
@@ -206,6 +210,30 @@ class EventPage extends StatelessWidget{
                                             padding: const EdgeInsets.all(2.0),
                                             child: Text(
                                               "Invités",
+                                              style: TextStyle(
+                                                color: HexColor("#4E1A1A"),
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      onPressed: () {
+                                        print("send mail author");
+                                      },
+                                    ),
+                                    MaterialButton(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Icon(FontAwesomeIcons.comments, color: HexColor("#4E1A1A")),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(2.0),
+                                            child: Text(
+                                              "Remarque",
                                               style: TextStyle(
                                                 color: HexColor("#4E1A1A"),
                                                 fontWeight: FontWeight.bold,
@@ -283,10 +311,11 @@ class EventPage extends StatelessWidget{
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
                                         Padding(padding: EdgeInsets.only(right:15), child: Icon(FontAwesomeIcons.mapMarkerAlt, color: HexColor("#4E1A1A"))),
-                                        Text(
+                                        Expanded(child: Text(
                                           event.location.name.toUpperCase(),
                                           style: TextStyle(color: Colors.black, fontSize: 16),
-                                        )
+                                        ),
+                                        ),
                                       ],
                                     )
                                 ),
@@ -327,15 +356,17 @@ class EventPage extends StatelessWidget{
                                       children: [
                                         Padding(padding: EdgeInsets.only(right:15), child: Icon(FontAwesomeIcons.userAlt, color: HexColor("#4E1A1A"))),
                                         if(event.author.fullname == loggedUser.fullname) ...[
+                                          Expanded(child:
                                           Text(
                                             event.author.fullname.toUpperCase() + " (VOUS)",
                                             style: TextStyle(color: Colors.black, fontSize: 16),
-                                          )
+                                          ))
                                         ]else ...[
+                                          Expanded(child:
                                           Text(
                                             event.author.fullname.toUpperCase(),
                                             style: TextStyle(color: Colors.black, fontSize: 16),
-                                          )
+                                          ))
                                         ]
                                       ],
                                     )

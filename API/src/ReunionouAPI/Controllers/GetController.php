@@ -49,7 +49,7 @@ class GetController {
         $shared = Shared::where(['event_id' => $id, 'user_id' => $_SESSION['id']])->count();
 
         if($owned || $shared) {
-            $comment = Comment::where('event_id', $id)->with('user')->get();
+            $comment = Comment::where('event_id', $id)->orderBy('id', 'DESC')->with('user')->get();
             $comment->makeHidden(['user_id']);
             return json_encode($comment);
         } else {

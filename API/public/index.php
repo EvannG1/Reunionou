@@ -28,7 +28,7 @@ $app = new \Slim\App($c);
 $app->add(function ($req, $res, $next) {
     $response = $next($req, $res);
     return $response
-            ->withHeader('Access-Control-Allow-Origin', 'http://api.local:19080')
+            ->withHeader('Access-Control-Allow-Origin', '*')
             ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
             ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
 });
@@ -66,6 +66,16 @@ $app->group('', function() {
         $id = $args['id'];
         $response = $resp->withHeader('Content-Type', 'application/json');
         $response->getBody()->write(GetAPI::getComment($id));
+        return $response;
+    });
+
+    // Route (POST) : permet de poster un commentaire sur un article depuis son ID
+    $this->post('/comment/{id}', function(Request $req, Response $resp, $args) {
+        $id = $args['id'];
+        $content = $req->getParam('content');
+        $event_id = $req->getParam('event_id');
+        $response = $resp->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(PostAPI::postComment($id, $content, $event_id));
         return $response;
     });
     
@@ -120,6 +130,16 @@ $app->group('', function() {
         $response->getBody()->write(PostAPI::deleteEvent($id));
         return $response;
     });
+
+    // Route (POST) : permet de modifier son profil
+    $this->post('/edit/profile', function(Request $req, Response $resp) {
+        $fullname = $req->getParam('fullname');
+        $email = $req->getParam('email');
+        $password = $req->getParam('password');
+        $response = $resp->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(PostAPI::editProfile($fullname, $email, $password));
+        return $response;
+    });
 })->add(new TokenMiddleware($c));
 
 // Route (POST) : permet la connexion
@@ -129,6 +149,17 @@ $app->post('/signin', function(Request $req, Response $resp) {
 
     $response = $resp->withHeader('Content-Type', 'application/json');
     $response->getBody()->write(PostAPI::signin($email, $password));
+    return $response;
+});
+
+// Route (POST) : permet l'inscription
+$app->post('/signup', function(Request $req, Response $resp) {
+    $fullname = $req->getParam('fullname');
+    $email = $req->getParam('email');
+    $password = $req->getParam('password');
+
+    $response = $resp->withHeader('Content-Type', 'application/json');
+    $response->getBody()->write(PostAPI::signup($fullname, $email, $password));
     return $response;
 });
 

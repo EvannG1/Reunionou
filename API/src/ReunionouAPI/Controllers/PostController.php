@@ -12,9 +12,10 @@ class PostController {
 
     public static $message = 
     [
-        "empty"     =>  "Un ou plusieurs champs sont manquants !",
-        "exist"     =>  "La ressource spécifiée n'existe pas !",
-        "incorrect" =>  "Email ou mot de passe incorrect !"
+        "empty"         =>  "Un ou plusieurs champs sont manquants !",
+        "exist"         =>  "La ressource spécifiée n'existe pas !",
+        "incorrect"     =>  "Email ou mot de passe incorrect !",
+        "email_taken"   => "L'adresse email spécifiée n'est pas disponible !"
     ];
 
     private static function success(){
@@ -39,6 +40,7 @@ class PostController {
         if(!is_null($user)) {
             if(AuthController::verifyPassword($password, $user->password)) {
                 $response = [
+                    'post'      =>  true,
                     'fullname'  =>  $user->fullname,
                     'email'     =>  $user->email,
                     'token'     =>  $user->token
@@ -49,6 +51,18 @@ class PostController {
             }
         } else {
             return self::error(self::$message['incorrect']);
+        }
+    }
+
+    public static function signup($fullname, $email, $password) {
+        $user = User::where('email', $email)->first();
+        if(is_null($user)) {
+            $password = AuthController::hashPassword($password);
+            $token = self::generateToken();
+            User::insert(['fullname' => $fullname, 'email' => $email, 'password' => $password, 'token' => $token]);
+            return self::success();
+        } else {
+            return self::error(self::$message['email_taken']);
         }
     }
 
@@ -94,6 +108,38 @@ class PostController {
             Event::where('id', $id)->delete();
 
             return self::success();
+        }
+    }
+
+    public static function postComment($id, $content, $event_id){
+        if(empty($content) || empty($event_id)) {
+            return self::error(self::$message['empty']);
+        } else {
+            Comment::insert(['content' => $content, 'user_id' => $_SESSION['id'], 'event_id' => $event_id]);
+
+            $response = [
+                'post'      => true,
+                'user_id'   => $_SESSION['id'],
+                'event_id'  =>  $event_id
+            ];
+
+            return json_encode($response);
+        }
+    }
+
+    public static function editProfile($fullname, $email, $password) {
+        if(empty($fullname) || empty($email) || empty($password)) {
+            return self::error(self::$message['empty']);
+        } else {
+            $exist = User::where('email', $email)->where('id', '!=', $_SESSION['id'])->count();
+            if($exist) {
+                return self::error(self::$message['email_taken']);
+            } else {
+                $password = AuthController::hashPassword($password);
+                User::where('id', $_SESSION['id'])->update(['fullname' => $fullname, 'email' => $email, 'password' => $password]);
+
+                return self::success();
+            }
         }
     }
 

@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong/latlong.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:reunionou_app/models/Auth.dart';
 import 'package:reunionou_app/models/EventAuthor.dart';
 import 'package:reunionou_app/models/Location.dart';
 import 'package:reunionou_app/pages/Auth/Login.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:reunionou_app/pages/CreateEvent.dart';
 import 'package:reunionou_app/pages/EventPage.dart';
 import 'package:reunionou_app/utils/layout/topNavBar.dart';
 import 'package:reunionou_app/models/Event.dart';
@@ -18,12 +20,12 @@ import 'dart:convert' as convert;
 import 'package:reunionou_app/widgets/EventPreview.dart';
 
 class Home extends StatefulWidget {
-  static const routeName = '/';
+  static const routeName = '/home';
   static const routeIndex = 0;
 
   final Auth loggedUser;
 
-  const Home(Auth this.loggedUser);
+  const Home(this.loggedUser);
 
   @override
   _HomeState createState() => new _HomeState();
@@ -35,7 +37,7 @@ class _HomeState extends State<Home>{
   @override
   void initState() {
     super.initState();
-    if(this.widget.loggedUser != null)
+    if(this.widget.loggedUser.connected == true)
       _loadEvent();
   }
 
@@ -141,7 +143,11 @@ class _HomeState extends State<Home>{
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: (){
-          this.widget.loggedUser.fullname = "helooooooo";
+          Navigator.push(
+            context,
+            new MaterialPageRoute(builder: (ctxt) => new CreateEvent(this.widget.loggedUser))
+          );
+
         },
         backgroundColor: HexColor("#4E1A1A"),
       ),
