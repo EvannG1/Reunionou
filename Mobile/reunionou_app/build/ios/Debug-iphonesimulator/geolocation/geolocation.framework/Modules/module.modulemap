@@ -1,0 +1,11 @@
+framework module geolocation {
+  umbrella header "geolocation-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module geolocation.Swift {
+    header "geolocation-Swift.h"
+    requires objc
+}

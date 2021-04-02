@@ -1,0 +1,3 @@
+${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/geolocation.framework
+${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hexcolor.framework
+${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/streams_channel.framework
